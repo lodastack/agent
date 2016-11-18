@@ -1,0 +1,19 @@
+[agent]
+	listen = "0.0.0.0:1232"
+	ifaceprefix = [ "eth" ]
+	registryaddr = "registry.test.com"
+	pluginsdir = "/usr/local/agent-plugins"
+	pluginsuser = "user"
+	git = "git://git@git.test.com/%s.git"
+	reportaddr = "http://report.test.com/v1/agent/"
+
+[output]
+	name = "nsq"
+	servers = [ "0.0.0.0:7777" ]
+	buffersize = 1000
+
+[log]
+	logdir = "/tmp/agent/log"
+	loglevel = "DEBUG"
+	logrotatenum = 5
+	logrotatesize = 1887436800
