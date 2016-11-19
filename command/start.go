@@ -48,6 +48,8 @@ func runStart(c *cli.Context) {
 		log.Fatalf("New agent Error: %s", err.Error())
 	}
 	a.Start()
+	// Print sweet Agent logo.
+	PrintLogo()
 	select {}
 }
 
@@ -71,3 +73,36 @@ func Notify() {
 	stopProfile()
 	os.Exit(0)
 }
+
+func PrintLogo() {
+	log.Printf(logo)
+}
+
+const logo = `
+                                                                                                               
+                                                                                                               
+               AAA                                                                               tttt          
+              A:::A                                                                           ttt:::t          
+             A:::::A                                                                          t:::::t          
+            A:::::::A                                                                         t:::::t          
+           A:::::::::A           ggggggggg   ggggg    eeeeeeeeeeee    nnnn  nnnnnnnn    ttttttt:::::ttttttt    
+          A:::::A:::::A         g:::::::::ggg::::g  ee::::::::::::ee  n:::nn::::::::nn  t:::::::::::::::::t    
+         A:::::A A:::::A       g:::::::::::::::::g e::::::eeeee:::::een::::::::::::::nn t:::::::::::::::::t    
+        A:::::A   A:::::A     g::::::ggggg::::::gge::::::e     e:::::enn:::::::::::::::ntttttt:::::::tttttt    
+       A:::::A     A:::::A    g:::::g     g:::::g e:::::::eeeee::::::e  n:::::nnnn:::::n      t:::::t          
+      A:::::AAAAAAAAA:::::A   g:::::g     g:::::g e:::::::::::::::::e   n::::n    n::::n      t:::::t          
+     A:::::::::::::::::::::A  g:::::g     g:::::g e::::::eeeeeeeeeee    n::::n    n::::n      t:::::t          
+    A:::::AAAAAAAAAAAAA:::::A g::::::g    g:::::g e:::::::e             n::::n    n::::n      t:::::t    tttttt
+   A:::::A             A:::::Ag:::::::ggggg:::::g e::::::::e            n::::n    n::::n      t::::::tttt:::::t
+  A:::::A               A:::::Ag::::::::::::::::g  e::::::::eeeeeeee    n::::n    n::::n      tt::::::::::::::t
+ A:::::A                 A:::::Agg::::::::::::::g   ee:::::::::::::e    n::::n    n::::n        tt:::::::::::tt
+AAAAAAA                   AAAAAAA gggggggg::::::g     eeeeeeeeeeeeee    nnnnnn    nnnnnn          ttttttttttt  
+                                          g:::::g                                                              
+                              gggggg      g:::::g                                                              
+                              g:::::gg   gg:::::g                                                              
+                               g::::::ggg:::::::g                                                              
+                                gg:::::::::::::g                                                               
+                                  ggg::::::ggg                                                                 
+                                     gggggg                                                                    
+
+`

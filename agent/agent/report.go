@@ -24,57 +24,62 @@ type Machine struct {
 	Update    bool     `json:"update"`
 }
 
-func (a *Agent) report() {
+func (a *Agent) Report() {
 	for range time.NewTicker(time.Minute * 10).C {
-		hostname, err := common.Hostname()
+		a.report()
+	}
+}
+
+func (a *Agent) report() {
+	hostname, err := common.Hostname()
+	if err != nil {
+		log.Error("get hostname failed: ", err)
+		return
+	}
+
+	data := Machine{
+		UUID:      common.GetUUID(),
+		IPList:    common.GetIpList(),
+		Version:   config.Version,
+		Hostname:  hostname,
+		AgentType: "loda-agent",
+		Update:    false,
+	}
+
+	file := filepath.Join(a.Config.PluginsDir, ".hostname")
+	//read saved content
+	read, err := ioutil.ReadFile(file)
+	if os.IsNotExist(err) {
+		if err := ioutil.WriteFile(file, []byte(data.Hostname), 0644); err != nil {
+			log.Error("write hostname cache file failed: ", err)
+		}
+	}
+	if err != nil {
+		log.Error("Read hostname cache file failed: ", err)
+	}
+
+	if err == nil {
+		if string(read) != data.Hostname {
+			log.Infof("Hostname chaged: %s -> %s", string(read), data.Hostname)
+			data.Update = true
+		}
+	}
+
+	jsonData, err := json.Marshal(data)
+	if err != nil {
+		log.Error("json.Marshal failed: ", data)
+	} else {
+		resp, err := http.Post(a.Config.ReportAddr, "application/json;charset=utf-8", bytes.NewBuffer(jsonData))
 		if err != nil {
-			continue
-		}
-
-		data := Machine{
-			UUID:      common.GetUUID(),
-			IPList:    common.GetIpList(),
-			Version:   config.Version,
-			Hostname:  hostname,
-			AgentType: "loda-agent",
-			Update:    false,
-		}
-
-		file := filepath.Join(a.Config.PluginsDir, ".hostname")
-		//read saved content
-		read, err := ioutil.ReadFile(file)
-		if os.IsNotExist(err) {
-			if err := ioutil.WriteFile(file, []byte(data.Hostname), 0644); err != nil {
-				log.Error("write hostname cache file failed: ", err)
-			}
-		}
-		if err != nil {
-			log.Error("Read hostname cache file failed: ", err)
-		}
-
-		if err == nil {
-			if string(read) != data.Hostname {
-				log.Infof("Hostname chaged: %s -> %s", string(read), data.Hostname)
-				data.Update = true
-			}
-		}
-
-		jsonData, err := json.Marshal(data)
-		if err != nil {
-			log.Error("json.Marshal failed: ", data)
+			log.Error("report agent info failed: ", err)
 		} else {
-			resp, err := http.Post(a.Config.ReportAddr, "application/json;charset=utf-8", bytes.NewBuffer(jsonData))
-			if err != nil {
-				log.Error("report agent info failed: ", err)
-			} else {
-				log.Info("report agent info successfully")
-				if resp.StatusCode == http.StatusOK {
-					if err := ioutil.WriteFile(file, []byte(data.Hostname), 0644); err != nil {
-						log.Error("write hostname cache file failed: ", err)
-					}
+			log.Info("report agent info successfully")
+			if resp.StatusCode == http.StatusOK {
+				if err := ioutil.WriteFile(file, []byte(data.Hostname), 0644); err != nil {
+					log.Error("write hostname cache file failed: ", err)
 				}
-				resp.Body.Close()
 			}
+			resp.Body.Close()
 		}
 	}
 }

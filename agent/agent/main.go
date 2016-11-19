@@ -33,5 +33,5 @@ func (a *Agent) Start() {
 	go a.Output.Start()
 	go scheduler.Start()
 	go httpd.Start(a.Config.Listen)
-	go a.report()
+	go a.Report()
 }
