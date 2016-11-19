@@ -1,9 +1,9 @@
 
 # Agent [![CircleCI](https://circleci.com/gh/lodastack/agent.svg?style=svg&circle-token=b26ad578124d061da19fb8cd796bc12b0d1393bd)](https://circleci.com/gh/lodastack/agent)
 
-## Install
+## Build
 
-    make instll
+    make build
     
 ## Start agent
     
@@ -17,8 +17,8 @@
 
 ### 从registry获得信息
 - namespaces
+- 基础监控
 - 插件信息
-- 日志采集项信息
 - 需要监控的端口和进程
 
 ### scheduler
@@ -26,8 +26,7 @@
     - 系统信息
     - 端口或者进程信息
     - 一个插件
-    - 一个日志采集项
-- 定时（目前是每隔10分钟）从registry拉取各种信息；提供手动更新的http接口
+- 定时（目前是每隔1分钟）从registry拉取各种信息；提供手动更新的http接口
 
 #### 系统信息
 - 向每个namespace都发送一份
@@ -36,7 +35,7 @@
 - 示例：https://git.test.com/XXX/plugin-example
 - 插件放在git上，每个插件的根目录下必须包含一个名为plugin.sh的bash脚本
 - agent主动从git拉取，放在本地的PluginsDir里面；agent不会更新已经缓存在本地的插件，提供手动更新插件的http接口
-- 使用非root权限运行插件。运行时cd到对应目录下，执行plugin.sh
+- 建议使用非root权限运行插件。运行时cd到对应目录下，执行plugin.sh
 - registry提供每个ns对应的插件的git地址和运行周期（单位秒）、运行参数（可选）
     - 运行周期为0：不是定期运行的脚本，由外部调用的接口运行。见http接口
     - 定期运行的脚本：
@@ -53,7 +52,7 @@
 
 - 提供disable和enable某个插件的http接口。如果disable之后一段时间（一天）没有enable，将会自动enable
 - 使用ns和git项目名作为索引，相同ns下的插件项目**不能同名**
-- 插件运行的结果也是一种metric，名字为plugin.result，提交到 collect.plugin.monitor.didi.com, tags: {"type": "regular"（常规采集脚本）/"call"（外部调用）, "name": 项目名, "ns": namespace}；value: 0正常运行/1运行中遇到错误
+- 插件运行的结果也是一种metric，名字为plugin.Name，提交到对应的NS中
 
 #### 内置插件
 - 内置插件的代码放在src/goplugin下，每个插件是一个函数 func(map[string]interface{}) (error, []*common.Metric)，goplugin.Init()建立名字到函数的映射。agent调用对应函数，并且将返回值发送到nsq（修改measurement同插件）
