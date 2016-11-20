@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"runtime"
 
@@ -11,6 +12,10 @@ import (
 )
 
 func init() {
+	if runtime.GOOS != "linux" {
+		fmt.Printf("Agent don't support this arch: %s\n", runtime.GOOS)
+		os.Exit(1)
+	}
 	runtime.GOMAXPROCS(runtime.NumCPU())
 }
 
