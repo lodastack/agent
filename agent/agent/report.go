@@ -46,6 +46,12 @@ func (a *Agent) report() {
 		Update:    false,
 	}
 
+	if !common.Exists(a.Config.PluginsDir) {
+		if err := os.MkdirAll(a.Config.PluginsDir, 0755); err != nil {
+			log.Error("create hostname cache dir failed: ", err)
+			return
+		}
+	}
 	file := filepath.Join(a.Config.PluginsDir, ".hostname")
 	//read saved content
 	read, err := ioutil.ReadFile(file)
