@@ -13,16 +13,8 @@ import (
 	"github.com/lodastack/agent/config"
 
 	"github.com/lodastack/log"
+	"github.com/lodastack/models"
 )
-
-type Machine struct {
-	UUID      []string `json:"uuid"`
-	IPList    []string `json:"iplist"`
-	Version   string   `json:"version"`
-	Hostname  string   `json:"hostname"`
-	AgentType string   `json:"agenttype"`
-	Update    bool     `json:"update"`
-}
 
 func (a *Agent) Report() {
 	for range time.NewTicker(time.Minute * 10).C {
@@ -37,13 +29,14 @@ func (a *Agent) report() {
 		return
 	}
 
-	data := Machine{
-		UUID:      common.GetUUID(),
-		IPList:    common.GetIpList(),
-		Version:   config.Version,
-		Hostname:  hostname,
-		AgentType: "loda-agent",
-		Update:    false,
+	data := models.Report{
+		UUID:        common.GetUUID(),
+		IPList:      common.GetIpList(),
+		Ns:          common.GetNamespaces(),
+		Version:     config.Version,
+		NewHostname: hostname,
+		AgentType:   "loda-agent",
+		Update:      false,
 	}
 
 	if !common.Exists(a.Config.PluginsDir) {
@@ -56,7 +49,7 @@ func (a *Agent) report() {
 	//read saved content
 	read, err := ioutil.ReadFile(file)
 	if os.IsNotExist(err) {
-		if err := ioutil.WriteFile(file, []byte(data.Hostname), 0644); err != nil {
+		if err := ioutil.WriteFile(file, []byte(data.NewHostname), 0644); err != nil {
 			log.Error("write hostname cache file failed: ", err)
 		}
 	}
@@ -65,8 +58,9 @@ func (a *Agent) report() {
 	}
 
 	if err == nil {
-		if string(read) != data.Hostname {
-			log.Infof("Hostname chaged: %s -> %s", string(read), data.Hostname)
+		if string(read) != data.NewHostname {
+			log.Infof("Hostname chaged: %s -> %s", string(read), data.NewHostname)
+			data.OldHostname = string(read)
 			data.Update = true
 		}
 	}
@@ -81,7 +75,7 @@ func (a *Agent) report() {
 		} else {
 			log.Info("report agent info successfully")
 			if resp.StatusCode == http.StatusOK {
-				if err := ioutil.WriteFile(file, []byte(data.Hostname), 0644); err != nil {
+				if err := ioutil.WriteFile(file, []byte(data.NewHostname), 0644); err != nil {
 					log.Error("write hostname cache file failed: ", err)
 				}
 			}
