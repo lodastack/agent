@@ -8,6 +8,7 @@ dep:fmt
 	go get github.com/toolkits/net
 	go get github.com/lodastack/nux
 	go get github.com/lodastack/log
+	go get github.com/lodastack/models
 	go get github.com/BurntSushi/toml
 
 install:dep
