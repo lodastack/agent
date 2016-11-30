@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 	"strings"
 
 	"github.com/lodastack/agent/agent/common"
@@ -245,6 +246,11 @@ func parsePlugin(b []byte) (res plugins.Collector, err error) {
 	if err = json.Unmarshal(b, &res); err != nil {
 		return
 	}
+	var cycle int
+	if cycle, err = strconv.Atoi(res.StrCycle); err != nil {
+		return
+	}
+	res.Cycle = cycle
 	res, err = formatPlugin(res)
 	return
 }

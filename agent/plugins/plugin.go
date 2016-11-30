@@ -23,13 +23,14 @@ const (
 )
 
 type Collector struct {
-	Name        string   `json:"name"`
-	Cycle       int      `json:"interval"`
+	Name        string `json:"name"`
+	Cycle       int
 	Namespace   string   `json:"namespace"`
 	Repo        string   `json:"git"`
 	ProjectName string   `json:projectname`
 	Param       []string `json:"param"`
 	Parameters  string   `json:"parameters"`
+	StrCycle    string   `json:"interval"`
 }
 
 func (self Collector) Run() {
