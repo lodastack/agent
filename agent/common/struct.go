@@ -39,8 +39,8 @@ type Points struct {
 type PortMonitor struct {
 	Namespace string `json:"namespace"`
 	Name      string `json:"name"`
-	Port      int    `json:"port"`
-	Timeout   int    `json:"connect_timeout"`
+	Port      string `json:"port"`
+	Timeout   string `json:"connect_timeout"`
 }
 
 type ProcMonitor struct {

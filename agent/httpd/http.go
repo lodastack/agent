@@ -126,7 +126,7 @@ func PluginRunHandler(w http.ResponseWriter, req *http.Request) {
 		mutex.Unlock()
 	}
 
-	c := plugins.Collector{"", 0, namespace, repo, plugin, param, parameters}
+	c := plugins.Collector{"", 0, namespace, repo, plugin, param, parameters, "0"}
 	err = c.Execute(timeout * 1000)
 	if err != nil {
 		c.SubmitException()

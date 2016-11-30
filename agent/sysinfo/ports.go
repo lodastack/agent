@@ -3,10 +3,13 @@ package sysinfo
 import (
 	"fmt"
 	"net"
+	"strconv"
 	"time"
 
 	"github.com/lodastack/agent/agent/common"
 	"github.com/lodastack/agent/agent/outputs"
+
+	"github.com/lodastack/log"
 )
 
 type PortCollector struct{}
@@ -29,10 +32,15 @@ func (self PortCollector) Description() string {
 	return "PortCollector"
 }
 
-func isListening(port int, timeout int) bool {
+func isListening(port string, timeoutStr string) bool {
 	var conn net.Conn
 	var err error
-	addr := fmt.Sprintf("127.0.0.1:%d", port)
+	var timeout int
+	if timeout, err = strconv.Atoi(timeoutStr); err != nil {
+		log.Errorf("convert port timeout to int failed: %s", err)
+		return false
+	}
+	addr := fmt.Sprintf("127.0.0.1:%s", port)
 	if timeout <= 0 {
 		// default timeout 3 second
 		timeout = 3
