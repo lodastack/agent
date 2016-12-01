@@ -87,7 +87,7 @@ func Ns() ([]string, error) {
 
 	resp, ok := response.Data.(map[string]string)
 	if !ok {
-		return res, fmt.Errorf("response data is not a map type")
+		return res, fmt.Errorf("response data is not a map type: %v", response.Data)
 	}
 
 	var ids []string
@@ -112,7 +112,7 @@ func pullResources(ns string) (res []map[string]interface{}, err error) {
 	}
 	res, ok := response.Data.([]map[string]interface{})
 	if !ok {
-		err = fmt.Errorf("response data is not a map slice type")
+		err = fmt.Errorf("response data is not a map slice type: %v", response.Data)
 		return
 	}
 
