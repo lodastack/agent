@@ -14,7 +14,6 @@ import (
 	"github.com/lodastack/agent/agent/goplugin"
 	"github.com/lodastack/agent/agent/plugins"
 	"github.com/lodastack/log"
-	"github.com/lodastack/models"
 )
 
 var Zerotimes = 0
@@ -78,17 +77,19 @@ func Ns() ([]string, error) {
 	if err != nil {
 		return res, err
 	}
-	var response models.Response
+
+	type ResponseNS struct {
+		Code int               `json:"httpstatus"`
+		Data map[string]string `json:"data"`
+	}
+	var response ResponseNS
 	err = json.Unmarshal(b, &response)
 	if err != nil {
 		log.Warning("json.Marshal Ns failed: ", err)
 		return res, err
 	}
 
-	resp, ok := response.Data.(map[string]string)
-	if !ok {
-		return res, fmt.Errorf("response data is not a map type: %v", response.Data)
-	}
+	resp := response.Data
 
 	var ids []string
 	for ns, id := range resp {
@@ -99,22 +100,23 @@ func Ns() ([]string, error) {
 	return res, nil
 }
 
-func pullResources(ns string) (res []map[string]interface{}, err error) {
+func pullResources(ns string) (res []map[string]string, err error) {
 	url := fmt.Sprintf("http://%s/api/v1/resource/%s/collect", common.Conf.RegistryAddr, ns)
 	b, err := Get(url)
 	if err != nil {
 		return
 	}
-	var response models.Response
+
+	type ResponseRes struct {
+		Code int                 `json:"httpstatus"`
+		Data []map[string]string `json:"data"`
+	}
+	var response ResponseRes
 	err = json.Unmarshal(b, &response)
 	if err != nil {
 		return
 	}
-	res, ok := response.Data.([]map[string]interface{})
-	if !ok {
-		err = fmt.Errorf("response data is not a map slice type: %v", response.Data)
-		return
-	}
+	res = response.Data
 
 	if len(res) == 0 {
 		err = fmt.Errorf("no items under this namespace")
@@ -138,7 +140,7 @@ func MonitorItems() (ports []common.PortMonitor,
 
 	for _, ns := range nss {
 		err = nil
-		var items []map[string]interface{}
+		var items []map[string]string
 		items, err = pullResources(ns)
 		if err != nil {
 			log.Error("failed to get resources from registry, ns: ", ns, " err: ", err)
@@ -146,9 +148,9 @@ func MonitorItems() (ports []common.PortMonitor,
 		}
 
 		for _, item := range items {
-			monitorType, ok := item["measurement_type"].(string)
+			monitorType, ok := item["measurement_type"]
 			if !ok {
-				log.Warning("measurement_type is not a string: ", item["measurement_type"])
+				log.Warning("measurement_type is not exist: ", item["measurement_type"])
 				continue
 			}
 			b, err := json.Marshal(item)
@@ -187,12 +189,17 @@ func MonitorItems() (ports []common.PortMonitor,
 					log.Warning("parse goplugin collection failed: ", err)
 				}
 			default:
-				if interval, ok := item["interval"].(int); ok {
-					intervals[monitorType] = interval
+				if interval, ok := item["interval"]; ok {
+					var intervalInt int
+					if intervalInt, err = strconv.Atoi(interval); err == nil {
+						intervals[monitorType] = intervalInt
+					} else {
+						log.Warning("convert interval to int failed: ", err)
+					}
 				}
 			}
 		}
-		getAlarmPlugin(ns, pluginCollectors, pluginInfo)
+		//getAlarmPlugin(ns, pluginCollectors, pluginInfo)
 	}
 
 	common.SetPluginInfo(pluginInfo)
@@ -204,67 +211,67 @@ func MonitorItems() (ports []common.PortMonitor,
 	return
 }
 
-func getAlarmPlugin(ns string, pluginCollectors map[string]plugins.Collector, pluginInfo map[string]bool) {
-	url := fmt.Sprintf("http://%s/api/v1/resource?ns=%s&resource=alarm", common.Conf.RegistryAddr, ns)
-	b, err := Get(url)
-	if err != nil {
-		return
-	}
-	var response models.Response
-	err = json.Unmarshal(b, &response)
-	if err != nil {
-		log.Error("Unmarshal from alarm failed: ", err)
-		return
-	}
+// func getAlarmPlugin(ns string, pluginCollectors map[string]plugins.Collector, pluginInfo map[string]bool) {
+// 	url := fmt.Sprintf("http://%s/api/v1/resource?ns=%s&resource=alarm", common.Conf.RegistryAddr, ns)
+// 	b, err := Get(url)
+// 	if err != nil {
+// 		return
+// 	}
+// 	var response models.Response
+// 	err = json.Unmarshal(b, &response)
+// 	if err != nil {
+// 		log.Error("Unmarshal from alarm failed: ", err)
+// 		return
+// 	}
 
-	alarms, ok := response.Data.([]map[string]interface{})
-	if !ok {
-		err = fmt.Errorf("response data is not a map slice type")
-		return
-	}
+// 	alarms, ok := response.Data.([]map[string]interface{})
+// 	if !ok {
+// 		err = fmt.Errorf("response data is not a map slice type")
+// 		return
+// 	}
 
-	for _, alarm := range alarms {
-		ac, ok := alarm["actions"]
-		if !ok {
-			continue
-		}
-		actions, ok := ac.([]interface{})
-		if !ok {
-			continue
-		}
-		for _, a := range actions {
-			action, ok := a.(map[string]interface{})
-			if !ok {
-				continue
-			}
-			t, ok := action["type"]
-			if !ok {
-				continue
-			}
-			if t1, ok := t.(string); ok && t1 == "AGENT" {
-				b, err := json.Marshal(action)
-				if err != nil {
-					log.Error("json.Marshal action failed: ", err)
-					continue
-				}
-				var col plugins.Collector
-				err = json.Unmarshal(b, &col)
-				if err != nil {
-					log.Error("json.Unmarshal to plugins.Collector from alarm failed: ", err)
-					continue
-				}
-				col, err = formatPlugin(col)
-				if err != nil {
-					continue
-				}
-				col.Cycle = 0
-				pluginInfo[ns+"|"+col.Repo] = true
-				//col.Namespace = ns
-				//pluginCollectors[ns+"|"+col.ProjectName] = col
-			}
-		}
-	}
-}
+// 	for _, alarm := range alarms {
+// 		ac, ok := alarm["actions"]
+// 		if !ok {
+// 			continue
+// 		}
+// 		actions, ok := ac.([]interface{})
+// 		if !ok {
+// 			continue
+// 		}
+// 		for _, a := range actions {
+// 			action, ok := a.(map[string]interface{})
+// 			if !ok {
+// 				continue
+// 			}
+// 			t, ok := action["type"]
+// 			if !ok {
+// 				continue
+// 			}
+// 			if t1, ok := t.(string); ok && t1 == "AGENT" {
+// 				b, err := json.Marshal(action)
+// 				if err != nil {
+// 					log.Error("json.Marshal action failed: ", err)
+// 					continue
+// 				}
+// 				var col plugins.Collector
+// 				err = json.Unmarshal(b, &col)
+// 				if err != nil {
+// 					log.Error("json.Unmarshal to plugins.Collector from alarm failed: ", err)
+// 					continue
+// 				}
+// 				col, err = formatPlugin(col)
+// 				if err != nil {
+// 					continue
+// 				}
+// 				col.Cycle = 0
+// 				pluginInfo[ns+"|"+col.Repo] = true
+// 				//col.Namespace = ns
+// 				//pluginCollectors[ns+"|"+col.ProjectName] = col
+// 			}
+// 		}
+// 	}
+// }
 
 func parsePlugin(b []byte) (res plugins.Collector, err error) {
 	if err = json.Unmarshal(b, &res); err != nil {
