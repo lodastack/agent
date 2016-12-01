@@ -4,6 +4,7 @@ github.com/lodastack/models 6130127fea2b316d2fe5f475f06197bb8fe5b7b6
 github.com/lodastack/nux c91baf310d939fa0ef76908d6c9626b835b4b25e
 github.com/oiooj/cli 942282e931e8286aa802a30b01fa7e16befb50f3
 github.com/toolkits/file ab007cd1c33919068b9b9538b5b4be22d833c5f1
-github.com/toolkits/net c930b74e10aa826365b5bf5cda310ad042155022
+github.com/toolkits/net d60cc35d68b7c7a319278619e961d8208d667277
 github.com/toolkits/slice e44a80af24848e28cf208d84778e62e660303159
 github.com/toolkits/sys c2ba2f18687baca160678068546bec95f7f22380
+github.com/pquerna/ffjson 184f78649ba053f484de46921391e6d0c6f5172f
