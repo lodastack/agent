@@ -14,6 +14,7 @@ import (
 	"github.com/lodastack/agent/agent/goplugin"
 	"github.com/lodastack/agent/agent/plugins"
 	"github.com/lodastack/log"
+	"github.com/lodastack/models"
 )
 
 var Zerotimes = 0
@@ -63,7 +64,6 @@ func Post(url string, data []byte) ([]byte, error) {
 }
 
 func Ns() ([]string, error) {
-	var resp map[string]string
 	var res []string
 	host, err := common.Hostname()
 	if err != nil {
@@ -78,11 +78,18 @@ func Ns() ([]string, error) {
 	if err != nil {
 		return res, err
 	}
-	err = json.Unmarshal(b, &resp)
+	var response models.Response
+	err = json.Unmarshal(b, &response)
 	if err != nil {
 		log.Warning("json.Marshal Ns failed: ", err)
 		return res, err
 	}
+
+	resp, ok := response.Data.(map[string]string)
+	if !ok {
+		return res, fmt.Errorf("response data is not a map type")
+	}
+
 	var ids []string
 	for ns, id := range resp {
 		res = append(res, ns)
@@ -98,7 +105,17 @@ func pullResources(ns string) (res []map[string]interface{}, err error) {
 	if err != nil {
 		return
 	}
-	err = json.Unmarshal(b, &res)
+	var response models.Response
+	err = json.Unmarshal(b, &response)
+	if err != nil {
+		return
+	}
+	res, ok := response.Data.([]map[string]interface{})
+	if !ok {
+		err = fmt.Errorf("response data is not a map slice type")
+		return
+	}
+
 	if len(res) == 0 {
 		err = fmt.Errorf("no items under this namespace")
 		Zerotimes++
@@ -193,12 +210,19 @@ func getAlarmPlugin(ns string, pluginCollectors map[string]plugins.Collector, pl
 	if err != nil {
 		return
 	}
-	var alarms []map[string]interface{}
-	err = json.Unmarshal(b, &alarms)
+	var response models.Response
+	err = json.Unmarshal(b, &response)
 	if err != nil {
 		log.Error("Unmarshal from alarm failed: ", err)
 		return
 	}
+
+	alarms, ok := response.Data.([]map[string]interface{})
+	if !ok {
+		err = fmt.Errorf("response data is not a map slice type")
+		return
+	}
+
 	for _, alarm := range alarms {
 		ac, ok := alarm["actions"]
 		if !ok {
