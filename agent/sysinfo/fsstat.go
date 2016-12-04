@@ -3,7 +3,6 @@ package sysinfo
 import (
 	"errors"
 	"io/ioutil"
-	"math"
 	"os"
 	"path/filepath"
 	"time"
@@ -14,25 +13,27 @@ import (
 	"github.com/lodastack/nux"
 )
 
-func FsKernelMetrics() (L []*common.Metric) {
-	maxFiles, err := nux.KernelMaxFiles()
+func FsSpaceMetrics() (L []*common.Metric) {
+	mountPoints, err := nux.ListMountPoint()
+
 	if err != nil {
-		log.Error("failed collect kernel metrics:", err)
+		log.Error("failed to call ListMountPoint:", err)
 		return
 	}
 
-	L = append(L, toMetric("fs.files.max", maxFiles, nil))
+	for idx := range mountPoints {
+		var du *nux.DeviceUsage
+		du, err = nux.BuildDeviceUsage(mountPoints[idx][0], mountPoints[idx][1], mountPoints[idx][2])
+		if err != nil {
+			log.Error("failed to call BuildDeviceUsage:", err)
+			continue
+		}
 
-	allocateFiles, err := nux.KernelAllocateFiles()
-	if err != nil {
-		log.Error("failed to call KernelAllocateFiles:", err)
-		return
+		tags := map[string]string{"mount": du.FsFile}
+		L = append(L, toMetric("fs.inodes.used.percent", du.InodesUsedPercent, tags))
+		L = append(L, toMetric("fs.space.used.percent", du.BlocksUsedPercent, tags))
 	}
 
-	v := math.Ceil(float64(allocateFiles) * 100 / float64(maxFiles))
-	L = append(L, toMetric("fs.files.allocated", allocateFiles, nil))
-	L = append(L, toMetric("fs.files.used.percent", v, nil))
-	L = append(L, toMetric("fs.files.left", maxFiles-allocateFiles, nil))
 	return
 }
 
@@ -62,7 +63,7 @@ func FsRWMetrics() (L []*common.Metric) {
 			res = 1
 		}
 		tags := map[string]string{"mount": du.FsFile}
-		L = append(L, toMetric("fs.disk.rw", res, tags))
+		L = append(L, toMetric("fs.files.rw", res, tags))
 	}
 
 	return

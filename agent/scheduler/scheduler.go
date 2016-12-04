@@ -120,15 +120,13 @@ func updateGoPlugin(collectors map[string]goplugin.Collector) {
 func getFuncsByType(t string) (ret []func() []*common.Metric) {
 	switch t {
 	case common.TYPE_CPU:
-		ret = append(ret, sysinfo.AgentMetrics, sysinfo.CpuMetrics)
+		ret = append(ret, sysinfo.AgentMetrics, sysinfo.CpuMetrics, sysinfo.PsMetrics)
 	case common.TYPE_DISK:
-		ret = append(ret, sysinfo.DeviceMetrics)
-	case common.TYPE_IO:
 		ret = append(ret, sysinfo.IOStatsMetrics)
 	case common.TYPE_MEM:
 		ret = append(ret, sysinfo.MemMetrics)
 	case common.TYPE_FS:
-		ret = append(ret, sysinfo.FsKernelMetrics, sysinfo.FsRWMetrics)
+		ret = append(ret, sysinfo.FsKernelMetrics, sysinfo.FsRWMetrics, sysinfo.FsSpaceMetrics)
 	case common.TYPE_TIME:
 		ret = append(ret, sysinfo.TimeMetrics)
 	case common.TYPE_NET:
