@@ -140,12 +140,12 @@ func IOStatsMetrics() (L []*common.Metric) {
 
 		duration := IODelta(device, TS)
 
-		L = append(L, toMetric("io.await", await, tags))
+		L = append(L, toMetric("disk.io.await", await, tags))
 		tmp := common.SetPrecision(float64(use)*100.0/float64(duration), 2)
 		if tmp > 100.0 {
 			tmp = 100.0
 		}
-		L = append(L, toMetric("io.util", tmp, tags))
+		L = append(L, toMetric("disk.io.util", tmp, tags))
 	}
 
 	return

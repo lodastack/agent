@@ -18,7 +18,6 @@ const (
 
 	TYPE_CPU  = "CPU"
 	TYPE_DISK = "DISK"
-	TYPE_IO   = "IO"
 	TYPE_MEM  = "MEM"
 	TYPE_NET  = "NET"
 	TYPE_FS   = "FS"
@@ -31,8 +30,7 @@ const (
 var (
 	DEFAULT_INTERVAL = map[string]int{
 		TYPE_CPU:      10,
-		TYPE_DISK:     60,
-		TYPE_IO:       10,
+		TYPE_DISK:     10,
 		TYPE_MEM:      10,
 		TYPE_NET:      10,
 		TYPE_PROC:     10,
@@ -42,7 +40,7 @@ var (
 		TYPE_COREDUMP: 60,
 	}
 
-	SYS_TYPES = []string{TYPE_CPU, TYPE_DISK, TYPE_IO, TYPE_MEM, TYPE_NET, TYPE_COREDUMP, TYPE_FS, TYPE_TIME}
+	SYS_TYPES = []string{TYPE_CPU, TYPE_DISK, TYPE_MEM, TYPE_NET, TYPE_COREDUMP, TYPE_FS, TYPE_TIME}
 )
 
 var (
