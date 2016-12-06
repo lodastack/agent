@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
-	"os"
 	"path/filepath"
 	"time"
 
@@ -39,30 +38,10 @@ func (a *Agent) report() {
 		Update:      false,
 	}
 
-	if !common.Exists(a.Config.PluginsDir) {
-		if err := os.MkdirAll(a.Config.PluginsDir, 0755); err != nil {
-			log.Error("create hostname cache dir failed: ", err)
-			return
-		}
-	}
-	file := filepath.Join(a.Config.PluginsDir, ".hostname")
-	//read saved content
-	read, err := ioutil.ReadFile(file)
-	if os.IsNotExist(err) {
-		if err := ioutil.WriteFile(file, []byte(data.NewHostname), 0644); err != nil {
-			log.Error("write hostname cache file failed: ", err)
-		}
-	}
-	if err != nil {
-		log.Error("Read hostname cache file failed: ", err)
-	}
-
-	if err == nil {
-		if string(read) != data.NewHostname {
-			log.Infof("Hostname chaged: %s -> %s", string(read), data.NewHostname)
-			data.OldHostname = string(read)
-			data.Update = true
-		}
+	changed, OldHostname := common.HostnameChanged()
+	if changed {
+		data.OldHostname = OldHostname
+		data.Update = true
 	}
 
 	jsonData, err := json.Marshal(data)
@@ -75,6 +54,7 @@ func (a *Agent) report() {
 		} else {
 			log.Info("report agent info successfully")
 			if resp.StatusCode == http.StatusOK {
+				file := filepath.Join(a.Config.PluginsDir, ".hostname")
 				if err := ioutil.WriteFile(file, []byte(data.NewHostname), 0644); err != nil {
 					log.Error("write hostname cache file failed: ", err)
 				}

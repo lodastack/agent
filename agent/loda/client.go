@@ -68,6 +68,12 @@ func Ns() ([]string, error) {
 	if err != nil {
 		return res, err
 	}
+	//check hostname chaged
+	changed, _ := common.HostnameChanged()
+	if changed {
+		return res, fmt.Errorf("hostname changed, skip fetch ns")
+	}
+
 	url := fmt.Sprintf("http://%s/api/v1/agent/ns", common.Conf.RegistryAddr)
 	data := make(map[string]string)
 	data["hostname"] = host

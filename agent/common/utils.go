@@ -3,12 +3,15 @@ package common
 import (
 	"bufio"
 	"fmt"
+	"io/ioutil"
 	"math"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"strings"
 	"time"
 
+	"github.com/lodastack/log"
 	"github.com/toolkits/net"
 )
 
@@ -112,4 +115,36 @@ func ReadLinesFromOffset(fpath string, offset int64, lineNum int64) (lines []str
 		}
 	}
 	return
+}
+
+func HostnameChanged() (bool, string) {
+	h, err := Hostname()
+	if err != nil {
+		return false, ""
+	}
+
+	if !Exists(Conf.PluginsDir) {
+		if err := os.MkdirAll(Conf.PluginsDir, 0755); err != nil {
+			log.Error("create hostname cache dir failed: ", err)
+			return false, ""
+		}
+	}
+	file := filepath.Join(Conf.PluginsDir, ".hostname")
+	//read saved content
+	read, err := ioutil.ReadFile(file)
+	if os.IsNotExist(err) {
+		if err := ioutil.WriteFile(file, []byte(h), 0644); err != nil {
+			log.Error("write hostname cache file failed: ", err)
+			return false, ""
+		}
+	}
+	if err != nil {
+		log.Error("Read hostname cache file failed: ", err)
+		return false, ""
+	}
+	if string(read) != h {
+		log.Infof("Hostname chaged: %s -> %s", string(read), h)
+		return true, string(read)
+	}
+	return false, ""
 }
