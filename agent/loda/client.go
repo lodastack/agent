@@ -107,7 +107,7 @@ func Ns() ([]string, error) {
 }
 
 func pullResources(ns string) (res []map[string]string, err error) {
-	url := fmt.Sprintf("http://%s/api/v1/resource/%s/collect", common.Conf.RegistryAddr, ns)
+	url := fmt.Sprintf("http://%s/api/v1/agent/resource?ns=%s&type=collect", common.Conf.RegistryAddr, ns)
 	b, err := Get(url)
 	if err != nil {
 		return
