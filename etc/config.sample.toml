@@ -5,7 +5,6 @@
 	pluginsdir = "/usr/local/agent-plugins"
 	pluginsuser = "user"
 	git = "git://git@git.test.com/%s.git"
-	reportaddr = "http://report.test.com/v1/agent/"
 
 [output]
 	name = "nsq"

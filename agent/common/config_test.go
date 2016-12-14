@@ -27,9 +27,6 @@ func Test_InitCollectConfig(t *testing.T) {
 	if Conf.Git != config.Git {
 		t.Fatalf("test config fatal: %s - %s", Conf.Git, config.Git)
 	}
-	if Conf.ReportAddr != config.ReportAddr {
-		t.Fatalf("test config fatal: %s - %s", Conf.ReportAddr, config.ReportAddr)
-	}
 }
 
 func MustConfig() *AgentConfig {
@@ -49,7 +46,6 @@ func MustConfig() *AgentConfig {
 		PluginsUser:  user.Username,
 		RegistryAddr: "registry.test.com",
 		Git:          "git@git.test.com:%s.git",
-		ReportAddr:   "report.test.com",
 	}
 	InitCollectConfig(config)
 	return config

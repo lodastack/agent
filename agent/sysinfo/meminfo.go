@@ -24,6 +24,11 @@ func MemMetrics() []*common.Metric {
 		pmemUsed = math.Ceil(float64(memUsed) * 100.0 / float64(m.MemTotal))
 	}
 
+	pswapUsed := 0.0
+	if m.SwapTotal != 0 {
+		pswapUsed = math.Ceil(float64(m.SwapUsed) * 100.0 / float64(m.SwapTotal))
+	}
+
 	return []*common.Metric{
 		toMetric("mem.total", m.MemTotal, nil),
 		toMetric("mem.used", memUsed, nil),
@@ -31,6 +36,7 @@ func MemMetrics() []*common.Metric {
 		toMetric("mem.used.percent", pmemUsed, nil),
 		toMetric("mem.buffers", m.Buffers, nil),
 		toMetric("mem.cached", m.Cached, nil),
+		toMetric("mem.swap.used.percent", pswapUsed, nil),
 	}
 
 }
