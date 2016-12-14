@@ -3,6 +3,7 @@ package agent
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"path/filepath"
@@ -48,7 +49,8 @@ func (a *Agent) report() {
 	if err != nil {
 		log.Error("json.Marshal failed: ", data)
 	} else {
-		resp, err := http.Post(a.Config.ReportAddr, "application/json;charset=utf-8", bytes.NewBuffer(jsonData))
+		url := fmt.Sprintf("http://%s/api/v1/agent/report", a.Config.RegistryAddr)
+		resp, err := http.Post(url, "application/json;charset=utf-8", bytes.NewBuffer(jsonData))
 		if err != nil {
 			log.Error("report agent info failed: ", err)
 		} else {

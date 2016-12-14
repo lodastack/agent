@@ -11,7 +11,6 @@ type AgentConfig struct {
 	PluginsUser  string   `toml:"pluginsuser"`
 	RegistryAddr string   `toml:registryaddr"`
 	Git          string   `toml:"git"`
-	ReportAddr   string   `toml:"reportaddr"`
 }
 
 var Conf *AgentConfig
