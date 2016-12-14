@@ -77,7 +77,7 @@ func Ns() ([]string, error) {
 	url := fmt.Sprintf("http://%s/api/v1/agent/ns", common.Conf.RegistryAddr)
 	data := make(map[string]string)
 	data["hostname"] = host
-	data["ips"] = strings.Join(common.GetIpList(), ",")
+	data["ip"] = strings.Join(common.GetIpList(), ",")
 	byteData, err := json.Marshal(data)
 	b, err := Post(url, byteData)
 	if err != nil {
