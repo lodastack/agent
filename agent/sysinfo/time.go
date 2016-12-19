@@ -119,7 +119,7 @@ func TimeMetrics() (L []*common.Metric) {
 	for i := 1; i <= times; i++ {
 		res, err := Query(ntpserver, ntpversion)
 		if err != nil && i == times {
-			log.Errorf("query time from NTP server failed: %s", err)
+			log.Debugf("query time from NTP server failed: %s", err)
 			return
 		}
 

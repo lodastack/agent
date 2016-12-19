@@ -17,6 +17,7 @@ import (
 )
 
 func (a *Agent) Report() {
+	a.report()
 	for range time.NewTicker(time.Minute * 10).C {
 		a.report()
 	}
@@ -54,12 +55,14 @@ func (a *Agent) report() {
 		if err != nil {
 			log.Error("report agent info failed: ", err)
 		} else {
-			log.Info("report agent info successfully")
 			if resp.StatusCode == http.StatusOK {
+				log.Info("report agent info successfully")
 				file := filepath.Join(a.Config.PluginsDir, ".hostname")
 				if err := ioutil.WriteFile(file, []byte(data.NewHostname), 0644); err != nil {
 					log.Error("write hostname cache file failed: ", err)
 				}
+			} else {
+				log.Errorf("report agent info failed: StatusCode %d", resp.StatusCode)
 			}
 			resp.Body.Close()
 		}
