@@ -62,10 +62,12 @@ func PsMetrics() (L []*common.Metric) {
 			fields["sleeping"] = fields["sleeping"] + int64(1)
 		case 'I':
 			fields["idle"] = fields["idle"] + int64(1)
+		case 'X':
+			fields["exit"] = fields["exit"] + int64(1)
 		case '?':
 			fields["unknown"] = fields["unknown"] + int64(1)
 		default:
-			log.Error("processes: Unknown state [ %s ] from ps",
+			log.Errorf("processes: Unknown state [ %s ] from ps",
 				string(status[0]))
 		}
 		fields["total"] = fields["total"] + int64(1)
