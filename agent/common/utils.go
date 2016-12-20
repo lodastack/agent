@@ -9,6 +9,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"strings"
+	"syscall"
 	"time"
 
 	"github.com/lodastack/log"
@@ -53,7 +54,11 @@ func CmdRunWithTimeout(cmd *exec.Cmd, timeout time.Duration) (error, bool) {
 			<-done // allow goroutine to exit
 		}()
 
-		err = cmd.Process.Kill()
+		pgid, err := syscall.Getpgid(cmd.Process.Pid)
+		if err == nil {
+			err = syscall.Kill(-pgid, 15)
+		}
+
 		return err, true
 	case err = <-done:
 		return err, false
