@@ -73,12 +73,12 @@ func (self Collector) Execute(timeout int) error {
 		return err
 	}
 
-	bashFile := path.Join(dir, "plugin.sh")
-	if !common.Exists(bashFile) {
-		log.Error("failed to exec plugin ", self.Namespace+"|"+self.ProjectName, " plugin.sh doesn't exist")
-		return errors.New("plugin.sh doesn't exist")
+	pluginFile := path.Join(dir, "plugin")
+	if !common.Exists(pluginFile) {
+		log.Error("failed to exec plugin ", self.Namespace+"|"+self.ProjectName, " plugin doesn't exist")
+		return errors.New("plugin doesn't exist")
 	}
-	cmd := exec.Command("sh", append([]string{bashFile}, self.Param...)...)
+	cmd := exec.Command(pluginFile, self.Param...)
 	cmd.SysProcAttr = &syscall.SysProcAttr{}
 	cmd.SysProcAttr.Credential = &syscall.Credential{Uid: uint32(uid), Gid: uint32(gid)}
 	var stdout, stderr bytes.Buffer
@@ -87,22 +87,22 @@ func (self Collector) Execute(timeout int) error {
 	cmd.Dir = dir
 	err = cmd.Start()
 	if err != nil {
-		log.Error("fail to start plugin:", bashFile, " err:", err)
+		log.Error("fail to start plugin:", pluginFile, " err:", err)
 		return err
 	}
 	err, isTimeout := common.CmdRunWithTimeout(cmd, time.Duration(timeout)*time.Millisecond)
 	if isTimeout {
 		// has be killed
 		if err == nil {
-			log.Warning("timeout and kill process ", bashFile, " successfully")
+			log.Warning("timeout and kill process ", pluginFile, " successfully")
 		} else {
-			log.Error("kill process ", bashFile, " occur error:", err)
+			log.Error("kill process ", pluginFile, " occur error:", err)
 		}
 		return errors.New("plugin timeout")
 	}
 
 	if err != nil {
-		log.Error("exec plugin ", bashFile, " failed. error:", err)
+		log.Error("exec plugin ", pluginFile, " failed. error:", err)
 		log.Debug("stdout: ", string(stdout.Bytes()))
 		log.Debug("stderr: ", string(stderr.Bytes()))
 		return err
@@ -114,7 +114,7 @@ func (self Collector) Execute(timeout int) error {
 	// exec successfully
 	data := stdout.Bytes()
 	if len(data) == 0 {
-		log.Error("stdout of ", bashFile, " is blank")
+		log.Error("stdout of ", pluginFile, " is blank")
 		return nil
 	}
 
@@ -124,7 +124,7 @@ func (self Collector) Execute(timeout int) error {
 		var metrics []*common.Metric
 		err = json.Unmarshal(data, &metrics)
 		if err != nil {
-			log.Error("json.Unmarshal stdout of ", bashFile, " fail. error:", err, " stdout:", stdout.String())
+			log.Error("json.Unmarshal stdout of ", pluginFile, " fail. error:", err, " stdout:", stdout.String())
 			return err
 		}
 
@@ -143,7 +143,7 @@ func (self Collector) Execute(timeout int) error {
 	var metrics []*common.Metric
 	err = json.Unmarshal(data, &metrics)
 	if err != nil {
-		log.Error("json.Unmarshal stdout of ", bashFile, " fail. error:", err, " stdout:", stdout.String())
+		log.Error("json.Unmarshal stdout of ", pluginFile, " fail. error:", err, " stdout:", stdout.String())
 		return err
 	}
 
