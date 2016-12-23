@@ -1,9 +1,5 @@
 package common
 
-import (
-	"fmt"
-)
-
 type AgentConfig struct {
 	Listen       string   `toml:"listen"`
 	IfacePrefix  []string `toml:"ifaceprefix"`
@@ -21,5 +17,4 @@ func InitCollectConfig(config *AgentConfig) {
 		config.PluginsUser = "root"
 	}
 	Conf = config
-	fmt.Println("load config:", Conf)
 }
