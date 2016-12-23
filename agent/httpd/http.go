@@ -252,6 +252,6 @@ func Start(listen string) {
 	http.HandleFunc("/me/ns", GetNsHandler)
 	http.HandleFunc("/me/status", GetStatusHandler)
 	//http.HandleFunc("/log/offset", LogOffsetHandler)
-	fmt.Println("starting collect module http listener... on ", common.Conf.Listen)
+	//fmt.Println("starting collect module http listener... on ", common.Conf.Listen)
 	log.Fatal(http.ListenAndServe(listen, nil))
 }
