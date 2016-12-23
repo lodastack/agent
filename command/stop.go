@@ -26,7 +26,7 @@ func runStop(c *cli.Context) {
 func stopAgent() {
 	data, err := ioutil.ReadFile(config.PID)
 	if err != nil {
-		fmt.Printf("cannot read pid file: %s\n", config.PID)
+		fmt.Printf("cannot read pid file: %s", config.PID)
 		return
 	}
 	pid, _ := strconv.Atoi(string(data))
@@ -37,7 +37,7 @@ func stopAgent() {
 	}
 	err = process.Signal(syscall.SIGINT)
 	if err != nil {
-		fmt.Println("send signal to process error")
+		fmt.Printf("send signal to process error: %s", err)
 		return
 	}
 	err = os.Remove(config.PID)
@@ -45,7 +45,7 @@ func stopAgent() {
 		err = nil
 	}
 	if err != nil {
-		fmt.Println("send signal to process successfully and remove pid error: ", err)
+		fmt.Printf("send signal to process successfully and remove pid error: %s", err)
 	}
-	fmt.Println("send signal to process successfully")
+	fmt.Printf("send signal to process successfully")
 }
