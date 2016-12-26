@@ -36,6 +36,7 @@ type Collector struct {
 func (self Collector) Run() {
 	err := self.Execute(self.Cycle*1000 - 500)
 	if err != nil {
+		log.Error("plugin execute failed: ", err)
 		self.SubmitException()
 	}
 }
@@ -79,7 +80,8 @@ func (self Collector) Execute(timeout int) error {
 		return errors.New("plugin doesn't exist")
 	}
 	cmd := exec.Command(pluginFile, self.Param...)
-	cmd.SysProcAttr = &syscall.SysProcAttr{}
+	//Create session
+	cmd.SysProcAttr = &syscall.SysProcAttr{Setsid: true}
 	cmd.SysProcAttr.Credential = &syscall.Credential{Uid: uint32(uid), Gid: uint32(gid)}
 	var stdout, stderr bytes.Buffer
 	cmd.Stdout = &stdout

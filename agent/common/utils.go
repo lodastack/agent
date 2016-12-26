@@ -9,6 +9,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"strings"
+	"syscall"
 	"time"
 
 	"github.com/lodastack/log"
@@ -53,7 +54,12 @@ func CmdRunWithTimeout(cmd *exec.Cmd, timeout time.Duration) (error, bool) {
 			<-done // allow goroutine to exit
 		}()
 
-		err = cmd.Process.Kill()
+		pgid, err := syscall.Getpgid(cmd.Process.Pid)
+		if err == nil {
+			err = syscall.Kill(-pgid, 15)
+		} else {
+			err = cmd.Process.Kill()
+		}
 		return err, true
 	case err = <-done:
 		return err, false
@@ -147,4 +153,36 @@ func HostnameChanged() (bool, string) {
 		return true, string(read)
 	}
 	return false, ""
+}
+
+func IPChanged() (bool, []string) {
+	var oldIP []string
+	newIP := GetIpList()
+	newIPContent := strings.Join(newIP, ",")
+
+	if !Exists(Conf.PluginsDir) {
+		if err := os.MkdirAll(Conf.PluginsDir, 0755); err != nil {
+			log.Error("create IP cache dir failed: ", err)
+			return false, oldIP
+		}
+	}
+	file := filepath.Join(Conf.PluginsDir, ".ip")
+	//read saved content
+	read, err := ioutil.ReadFile(file)
+	if os.IsNotExist(err) {
+		if err := ioutil.WriteFile(file, []byte(newIPContent), 0644); err != nil {
+			log.Error("write IP cache file failed: ", err)
+			return false, oldIP
+		}
+	}
+	if err != nil {
+		log.Error("Read IP cache file failed: ", err)
+		return false, oldIP
+	}
+	oldIP = strings.Split(string(read), ",")
+	if string(read) != newIPContent {
+		log.Infof("IP chaged: %s -> %s", string(read), newIPContent)
+		return true, oldIP
+	}
+	return false, oldIP
 }

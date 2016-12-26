@@ -7,6 +7,9 @@ import (
 	"github.com/lodastack/log"
 )
 
+// min interval, unit second
+const MinInterval = 10
+
 type Scheduler struct {
 	ticker    *time.Ticker
 	quit      chan int
@@ -16,9 +19,9 @@ type Scheduler struct {
 }
 
 func NewScheduler(interval int, collector common.Collector) *Scheduler {
-	if interval <= 0 {
-		// change it to 10s,  0 will panic agent
-		interval = 10
+	if interval <= MinInterval {
+		// change it to MinIntervals,  0 will panic agent
+		interval = MinInterval
 	}
 	scheduler := Scheduler{collector: collector, running: false}
 	scheduler.interval = interval

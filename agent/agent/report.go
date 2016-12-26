@@ -32,7 +32,7 @@ func (a *Agent) report() {
 
 	data := models.Report{
 		UUID:        common.GetUUID(),
-		IPList:      common.GetIpList(),
+		NewIPList:   common.GetIpList(),
 		Ns:          common.GetNamespaces(),
 		Version:     config.Version,
 		NewHostname: hostname,
@@ -40,11 +40,13 @@ func (a *Agent) report() {
 		Update:      false,
 	}
 
-	changed, OldHostname := common.HostnameChanged()
-	if changed {
-		data.OldHostname = OldHostname
+	HostnameChanged, OldHostname := common.HostnameChanged()
+	IPChanged, OldIP := common.IPChanged()
+	if HostnameChanged || IPChanged {
 		data.Update = true
 	}
+	data.OldHostname = OldHostname
+	data.OldIPList = OldIP
 
 	jsonData, err := json.Marshal(data)
 	if err != nil {
