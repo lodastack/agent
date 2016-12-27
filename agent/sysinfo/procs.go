@@ -67,14 +67,16 @@ func (self ProcCollector) Run() {
 		m[proc.Namespace] = append(m[proc.Namespace],
 			toMetric(fmt.Sprintf("%s.%s.procnum", common.TYPE_PROC, proc.Name), cnt, nil),
 			toMetric(fmt.Sprintf("%s.%s.fdnum", common.TYPE_PROC, proc.Name), fdNum, nil),
-			toMetric(fmt.Sprintf("%s.%s.mem.KB", common.TYPE_PROC, proc.Name), memory, nil),
+			// unit:Byte
+			toMetric(fmt.Sprintf("%s.%s.mem", common.TYPE_PROC, proc.Name), memory*1024, nil),
 			toMetric(fmt.Sprintf("%s.%s.cpu", common.TYPE_PROC, proc.Name), common.SetPrecision(cpu*100, 2), nil),
 			toMetric(fmt.Sprintf("%s.%s.tcp.established", common.TYPE_PROC, proc.Name), tcpEstablished, nil))
 
 		if rBytes != nil {
 			m[proc.Namespace] = append(m[proc.Namespace],
-				toMetric(fmt.Sprintf("%s.%s.io.read.KB", common.TYPE_PROC, proc.Name), math.Ceil(float64(ioRead)/(interval*1024)), nil),
-				toMetric(fmt.Sprintf("%s.%s.io.write.KB", common.TYPE_PROC, proc.Name), math.Ceil(float64(ioWrite)/(interval*1024)), nil))
+				// unit:Byte
+				toMetric(fmt.Sprintf("%s.%s.io.read", common.TYPE_PROC, proc.Name), math.Ceil(float64(ioRead)/(interval)), nil),
+				toMetric(fmt.Sprintf("%s.%s.io.write", common.TYPE_PROC, proc.Name), math.Ceil(float64(ioWrite)/(interval)), nil))
 		}
 	}
 	rBytes = newRBytes

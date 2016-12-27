@@ -10,10 +10,13 @@ import (
 )
 
 type CumIfStat struct {
-	inBytes  int64
-	outBytes int64
-	inDrop   int64
-	outDrop  int64
+	inBytes    int64
+	outBytes   int64
+	inDrop     int64
+	outDrop    int64
+	Speed      int64
+	InPercent  float64
+	OutPercent float64
 }
 
 var (
@@ -30,7 +33,7 @@ func NetMetrics() (ret []*common.Metric) {
 	now := time.Now()
 	newIfStat := make(map[string]CumIfStat)
 	for _, netIf := range netIfs {
-		newIfStat[netIf.Iface] = CumIfStat{netIf.InBytes, netIf.OutBytes, netIf.InDropped, netIf.OutDropped}
+		newIfStat[netIf.Iface] = CumIfStat{netIf.InBytes, netIf.OutBytes, netIf.InDropped, netIf.OutDropped, netIf.Speed, netIf.InPercent, netIf.OutPercent}
 	}
 	interval := now.Unix() - lastTime.Unix()
 	lastTime = now
@@ -50,6 +53,14 @@ func NetMetrics() (ret []*common.Metric) {
 
 			v = common.SetPrecision(float64(stat.outDrop-oldStat.outDrop)/float64(interval), 2)
 			ret = append(ret, toMetric("net.out.dropped", v, tags))
+
+			v = common.SetPrecision(float64(stat.InPercent), 2)
+			ret = append(ret, toMetric("net.in.percent", v, tags))
+
+			v = common.SetPrecision(float64(stat.OutPercent), 2)
+			ret = append(ret, toMetric("net.out.percent", v, tags))
+
+			ret = append(ret, toMetric("net.speed", stat.Speed, tags))
 		}
 
 	}
