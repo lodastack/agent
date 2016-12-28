@@ -55,11 +55,13 @@ func NetMetrics() (ret []*common.Metric) {
 			v = common.SetPrecision(float64(stat.outDrop-oldStat.outDrop)/float64(interval), 2)
 			ret = append(ret, toMetric("net.out.dropped", v, tags))
 
-			v = common.SetPrecision(float64(netIn*100/float64(stat.speed*MILLION_BIT)), 2)
-			ret = append(ret, toMetric("net.in.percent", v, tags))
+			if stat.speed != 0 {
+				v = common.SetPrecision(float64(netIn*100/float64(stat.speed*MILLION_BIT)), 2)
+				ret = append(ret, toMetric("net.in.percent", v, tags))
 
-			v = common.SetPrecision(float64(netOut*100/float64(stat.speed*MILLION_BIT)), 2)
-			ret = append(ret, toMetric("net.out.percent", v, tags))
+				v = common.SetPrecision(float64(netOut*100/float64(stat.speed*MILLION_BIT)), 2)
+				ret = append(ret, toMetric("net.out.percent", v, tags))
+			}
 
 			ret = append(ret, toMetric("net.speed", stat.speed, tags))
 		}
