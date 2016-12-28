@@ -23,7 +23,7 @@ var CmdDebug = cli.Command{
 		cli.StringFlag{
 			Name:  "f",
 			Value: "/etc/odin-agent.conf",
-			Usage: "配置文件路径，默认位置：/etc/odin-agent.conf",
+			Usage: "配置文件路径，默认位置：/etc/monitor-agent.conf",
 		},
 		cli.StringFlag{
 			Name:  "cpuprofile",

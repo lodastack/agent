@@ -47,7 +47,9 @@ func runStart(c *cli.Context) {
 	if err != nil {
 		log.Fatalf("New agent Error: %s", err.Error())
 	}
-	a.Start()
+	if err := a.Start(); err != nil {
+		log.Fatalf("agent start failed: %s", err.Error())
+	}
 	// Print sweet Agent logo.
 	PrintLogo()
 	select {}

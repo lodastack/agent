@@ -1,14 +1,20 @@
 package httpd
 
 import (
+	"crypto/tls"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
+	"net"
 	"net/http"
+	"os"
+	"path"
+	"runtime"
 	"strconv"
 	"strings"
 	"sync"
+	"syscall"
 
 	"github.com/lodastack/agent/agent/common"
 	"github.com/lodastack/agent/agent/outputs"
@@ -23,6 +29,33 @@ var (
 	runnningPlugins = make(map[string]bool)
 	mutex           sync.Mutex
 )
+
+const DefaultUnixSocket = "/var/run/monitor-agent.sock"
+
+type Service struct {
+	ln    net.Listener
+	addr  string
+	https bool
+	cert  string
+	key   string
+	err   chan error
+
+	unixSocket         bool
+	bindSocket         string
+	unixSocketListener net.Listener
+}
+
+// NewService returns a new instance of Service.
+func NewService(listen string) *Service {
+	s := &Service{
+		unixSocket: true,
+		https:      false,
+		addr:       listen,
+		bindSocket: DefaultUnixSocket,
+		err:        make(chan error),
+	}
+	return s
+}
 
 func PluginListHandler(w http.ResponseWriter, req *http.Request) {
 	p := scheduler.PluginStatus()
@@ -241,7 +274,7 @@ func checkRepo(namespace, repo string) (string, error) {
 	return repo, nil
 }
 
-func Start(listen string) {
+func (s *Service) Start() error {
 	http.HandleFunc("/plugins/list", PluginListHandler)
 	http.HandleFunc("/plugins/update", PluginUpdateHandler)
 	http.HandleFunc("/plugins/run", PluginRunHandler)
@@ -253,5 +286,89 @@ func Start(listen string) {
 	http.HandleFunc("/me/status", GetStatusHandler)
 	//http.HandleFunc("/log/offset", LogOffsetHandler)
 	//fmt.Println("starting collect module http listener... on ", common.Conf.Listen)
-	log.Fatal(http.ListenAndServe(listen, nil))
+
+	// Open listener.
+	if s.https {
+		cert, err := tls.LoadX509KeyPair(s.cert, s.key)
+		if err != nil {
+			return err
+		}
+
+		listener, err := tls.Listen("tcp", s.addr, &tls.Config{
+			Certificates: []tls.Certificate{cert},
+		})
+		if err != nil {
+			return err
+		}
+
+		log.Info(fmt.Sprint("Listening on HTTPS:", listener.Addr().String()))
+		s.ln = listener
+	} else {
+		listener, err := net.Listen("tcp", s.addr)
+		if err != nil {
+			return err
+		}
+
+		log.Info(fmt.Sprint("Listening on HTTP:", listener.Addr().String()))
+		s.ln = listener
+	}
+
+	// Open unix socket listener.
+	if s.unixSocket {
+		if runtime.GOOS == "windows" {
+			return fmt.Errorf("unable to use unix socket on windows")
+		}
+		if err := os.MkdirAll(path.Dir(s.bindSocket), 0777); err != nil {
+			return err
+		}
+		if err := syscall.Unlink(s.bindSocket); err != nil && !os.IsNotExist(err) {
+			return err
+		}
+
+		listener, err := net.Listen("unix", s.bindSocket)
+		if err != nil {
+			return err
+		}
+
+		log.Info(fmt.Sprint("Listening on unix socket:", listener.Addr().String()))
+		s.unixSocketListener = listener
+
+		go s.serveUnixSocket()
+	}
+
+	// Begin listening for requests in a separate goroutine.
+	go s.serveTCP()
+	return nil
+
+}
+
+// serveTCP serves the handler from the TCP listener.
+func (s *Service) serveTCP() {
+	s.serve(s.ln)
+}
+
+// serveUnixSocket serves the handler from the unix socket listener.
+func (s *Service) serveUnixSocket() {
+	s.serve(s.unixSocketListener)
+}
+
+// serve serves the handler from the listener.
+func (s *Service) serve(listener net.Listener) {
+	// The listener was closed so exit
+	// See https://github.com/golang/go/issues/4373
+	err := http.Serve(listener, nil)
+	if err != nil && !strings.Contains(err.Error(), "closed") {
+		s.err <- fmt.Errorf("listener failed: addr=%s, err=%s", s.Addr(), err)
+	}
+}
+
+// Err returns a channel for fatal errors that occur on the listener.
+func (s *Service) Err() <-chan error { return s.err }
+
+// Addr returns the listener's address. Returns nil if listener is closed.
+func (s *Service) Addr() net.Addr {
+	if s.ln != nil {
+		return s.ln.Addr()
+	}
+	return nil
 }
