@@ -13,12 +13,14 @@ import (
 type Agent struct {
 	Config *common.AgentConfig
 	Output *outputs.Output
+	Httpd  *httpd.Service
 }
 
 // New returns an Agent struct based off the given Config.
 func New(c *config.Config) (*Agent, error) {
 	a := &Agent{
 		Config: &c.Agent,
+		Httpd:  httpd.NewService(c.Agent.Listen),
 	}
 
 	var err error
@@ -27,11 +29,14 @@ func New(c *config.Config) (*Agent, error) {
 }
 
 // Start starts the agent collects data.
-func (a *Agent) Start() {
+func (a *Agent) Start() error {
 	common.InitCollectConfig(a.Config)
 
 	go a.Output.Start()
 	go scheduler.Start()
-	go httpd.Start(a.Config.Listen)
+	if err := a.Httpd.Start(); err != nil {
+		return err
+	}
 	go a.Report()
+	return nil
 }
