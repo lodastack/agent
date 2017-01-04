@@ -69,8 +69,7 @@ func (self ProcCollector) Run() {
 			toMetric(fmt.Sprintf("%s.%s.fdnum", common.TYPE_PROC, proc.Name), fdNum, nil),
 			// unit:Byte
 			toMetric(fmt.Sprintf("%s.%s.mem", common.TYPE_PROC, proc.Name), memory*1024, nil),
-			toMetric(fmt.Sprintf("%s.%s.cpu", common.TYPE_PROC, proc.Name), common.SetPrecision(cpu*100, 2), nil),
-			toMetric(fmt.Sprintf("%s.%s.tcp.established", common.TYPE_PROC, proc.Name), tcpEstablished, nil))
+			toMetric(fmt.Sprintf("%s.%s.cpu", common.TYPE_PROC, proc.Name), common.SetPrecision(cpu*100, 2), nil))
 
 		if rBytes != nil {
 			m[proc.Namespace] = append(m[proc.Namespace],
