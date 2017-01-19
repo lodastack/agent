@@ -62,7 +62,7 @@ func initLog() {
 		log.Fatalf("failed to new log backend")
 	}
 	log.SetLogging(config.C.Log.Level, logBackend)
-	log.Rotate(config.C.Log.Logrotatenum, config.C.Log.Logrotatesize)
+	logBackend.Rotate(config.C.Log.Logrotatenum, config.C.Log.Logrotatesize)
 }
 
 func Notify() {
