@@ -131,7 +131,7 @@ func (self Collector) Execute(timeout int) error {
 		}
 
 		for _, m := range metrics {
-			m.Name = "SEC-PLUGIN." + self.Name + "." + m.Name
+			m.Name = "SEC." + self.Name + "." + m.Name
 		}
 		nsarr := strings.SplitN(self.Namespace, ".", 2)
 		if len(nsarr) > 1 {
@@ -150,7 +150,7 @@ func (self Collector) Execute(timeout int) error {
 	}
 
 	for _, m := range metrics {
-		m.Name = "PLUGIN." + self.Name + "." + m.Name
+		m.Name = self.Name + "." + m.Name
 	}
 	outputs.SendMetrics(common.TYPE_PLUGIN, self.Namespace, metrics)
 	return nil
