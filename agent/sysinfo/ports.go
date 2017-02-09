@@ -19,9 +19,9 @@ func (self PortCollector) Run() {
 	reportPorts := common.ReportPorts()
 	for _, p := range reportPorts {
 		if isListening(p.Port, p.Timeout) {
-			m[p.Namespace] = append(m[p.Namespace], toMetric(p.Name, 1, nil))
+			m[p.Namespace] = append(m[p.Namespace], toMetric(common.TYPE_PORT+"."+p.Name, 1, nil))
 		} else {
-			m[p.Namespace] = append(m[p.Namespace], toMetric(p.Name, 0, nil))
+			m[p.Namespace] = append(m[p.Namespace], toMetric(common.TYPE_PORT+"."+p.Name, 0, nil))
 		}
 	}
 	for ns, ms := range m {
