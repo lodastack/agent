@@ -150,7 +150,7 @@ func (self Collector) Execute(timeout int) error {
 	}
 
 	for _, m := range metrics {
-		m.Name = "PLUGIN." + self.Name + "." + m.Name
+		m.Name = common.TYPE_PLUGIN + "." + self.Name + "." + m.Name
 	}
 	outputs.SendMetrics(common.TYPE_PLUGIN, self.Namespace, metrics)
 	return nil
