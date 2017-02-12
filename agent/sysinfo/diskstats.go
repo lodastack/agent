@@ -139,8 +139,8 @@ func IOStatsMetrics() (L []*common.Metric) {
 		}
 
 		duration := IODelta(device, TS)
-		L = append(L, toMetric("disk.io.read_requests", common.SetPrecision(float64(rio)/float64(duration), 2), tags))
-		L = append(L, toMetric("disk.io.write_requests", common.SetPrecision(float64(wio)/float64(duration), 2), tags))
+		L = append(L, toMetric("disk.io.read_requests", common.SetPrecision(float64(rio)/float64(duration/1000), 2), tags))
+		L = append(L, toMetric("disk.io.write_requests", common.SetPrecision(float64(wio)/float64(duration/1000), 2), tags))
 		L = append(L, toMetric("disk.io.await", await, tags))
 		tmp := common.SetPrecision(float64(use)*100.0/float64(duration), 2)
 		if tmp > 100.0 {
