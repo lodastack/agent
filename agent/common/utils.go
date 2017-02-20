@@ -13,7 +13,6 @@ import (
 	"time"
 
 	"github.com/lodastack/log"
-	"github.com/toolkits/net"
 )
 
 func Hostname() (string, error) {
@@ -32,7 +31,7 @@ func normalizedHostname(hostname string) string {
 }
 
 func GetIpList() []string {
-	ips, err := net.IntranetIP()
+	ips, err := IP()
 	if err != nil {
 		res := []string{}
 		return res
