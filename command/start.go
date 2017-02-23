@@ -68,7 +68,7 @@ func initLog() {
 func Notify() {
 	message := make(chan os.Signal, 1)
 
-	signal.Notify(message, syscall.SIGINT, syscall.SIGTERM, syscall.SIGHUP, syscall.SIGKILL, os.Interrupt)
+	signal.Notify(message, syscall.SIGINT, syscall.SIGKILL, os.Interrupt)
 	<-message
 	log.Info("receive signal, exit...")
 	logBackend.Flush()
