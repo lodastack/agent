@@ -35,9 +35,24 @@ var (
 	queue   chan Data
 )
 
-func SendMetrics(ctype string, namespace string, metrics []*common.Metric) error {
-	if len(metrics) == 0 {
+func SendMetrics(ctype string, namespace string, _metrics []*common.Metric) error {
+	if len(_metrics) == 0 {
 		return nil
+	}
+	// avoid multi-NS panic, deep copy metrics
+	metrics := make([]common.Metric, len(_metrics))
+	for index, _metric := range _metrics {
+		metric := common.Metric{
+			Name:      _metric.Name,
+			Timestamp: _metric.Timestamp,
+			Tags:      make(map[string]string, len(_metric.Tags)),
+			Value:     _metric.Value,
+			Offset:    _metric.Offset,
+		}
+		for k, v := range _metric.Tags {
+			metric.Tags[k] = v
+		}
+		metrics[index] = metric
 	}
 	// filter topic
 	namespace = "collect." + namespace
