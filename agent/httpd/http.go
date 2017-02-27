@@ -178,14 +178,17 @@ func PostDataHandler(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 	decoder := json.NewDecoder(req.Body)
-	var m []*common.Metric
-	err := decoder.Decode(&m)
+	var metrics []*common.Metric
+	err := decoder.Decode(&metrics)
 	if err != nil {
 		io.WriteString(w, "failed to decode json:"+err.Error()+"\n")
 		return
 	}
-	outputs.SendMetrics(common.TYPE_SYS, namespace, m)
-	io.WriteString(w, "send data to nsq\n")
+	for _, metric := range metrics {
+		metric.Name = common.TYPE_RUN + "." + metric.Name
+	}
+	outputs.SendMetrics(common.TYPE_RUN, namespace, metrics)
+	io.WriteString(w, "send data to MQ success\n")
 }
 
 func UpdateHandlder(w http.ResponseWriter, req *http.Request) {

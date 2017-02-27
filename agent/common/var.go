@@ -15,6 +15,7 @@ const (
 	TYPE_PLUGIN   = "PLUGIN"
 	TYPE_LOG      = "LOG"
 	TYPE_GOPLUGIN = "GOPLUGIN"
+	TYPE_RUN      = "RUN"
 
 	TYPE_CPU  = "CPU"
 	TYPE_DISK = "DISK"
