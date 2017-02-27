@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"path/filepath"
+	"runtime"
 	"time"
 
 	"github.com/lodastack/agent/agent/common"
@@ -35,6 +36,10 @@ func (a *Agent) report() {
 		NewIPList:   common.GetIpList(),
 		Ns:          common.GetNamespaces(),
 		Version:     config.Version,
+		Commit:      config.Commit,
+		Branch:      config.Branch,
+		BuildTime:   config.BuildTime,
+		GoVersion:   runtime.Version(),
 		NewHostname: hostname,
 		AgentType:   "loda-agent",
 		Update:      false,

@@ -1,9 +1,11 @@
 package command
 
 import (
+	"fmt"
 	"io/ioutil"
 	"os"
 	"os/signal"
+	"runtime"
 	"strconv"
 	"syscall"
 
@@ -31,6 +33,11 @@ var CmdStart = cli.Command{
 }
 
 func runStart(c *cli.Context) {
+	if runtime.GOOS != "linux" {
+		fmt.Printf("Agent don't support this arch: %s\n", runtime.GOOS)
+		os.Exit(1)
+	}
+
 	//parse config file
 	err := config.ParseConfig(c.String("f"))
 	if err != nil {

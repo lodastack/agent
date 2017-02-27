@@ -1,9 +1,7 @@
 package main
 
 import (
-	"fmt"
 	"os"
-	"runtime"
 
 	"github.com/lodastack/agent/command"
 	"github.com/lodastack/agent/config"
@@ -11,12 +9,32 @@ import (
 	"github.com/oiooj/cli"
 )
 
+// These variables are populated via the Go linker.
+var (
+	version   string
+	commit    string
+	branch    string
+	buildTime string
+)
+
 func init() {
-	if runtime.GOOS != "linux" {
-		fmt.Printf("Agent don't support this arch: %s\n", runtime.GOOS)
-		os.Exit(1)
+	// If commit, branch, or build time are not set, make that clear.
+	config.Version = version
+	if version == "" {
+		config.Version = "unknown"
 	}
-	runtime.GOMAXPROCS(runtime.NumCPU())
+	config.Commit = commit
+	if commit == "" {
+		config.Commit = "unknown"
+	}
+	config.Branch = branch
+	if branch == "" {
+		config.Branch = "unknown"
+	}
+	config.BuildTime = buildTime
+	if buildTime == "" {
+		config.BuildTime = "unknown"
+	}
 }
 
 func main() {
@@ -31,6 +49,7 @@ func main() {
 	app.Commands = []cli.Command{
 		command.CmdStart,
 		command.CmdStop,
+		command.CmdVersion,
 		command.CmdDebug,
 	}
 

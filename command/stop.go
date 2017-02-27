@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"runtime"
 	"strconv"
 	"syscall"
 
@@ -24,6 +25,11 @@ func runStop(c *cli.Context) {
 }
 
 func stopAgent() {
+	if runtime.GOOS != "linux" {
+		fmt.Printf("Agent don't support this arch: %s\n", runtime.GOOS)
+		os.Exit(1)
+	}
+
 	data, err := ioutil.ReadFile(config.PID)
 	if err != nil {
 		fmt.Printf("cannot read pid file: %s ", config.PID)
