@@ -68,7 +68,10 @@ func SendMetrics(ctype string, namespace string, _metrics []*common.Metric) erro
 		if metric.Tags == nil {
 			metric.Tags = map[string]string{"host": hostname}
 		} else {
-			metric.Tags["host"] = hostname
+			// Dont overwrite user's host
+			if host, ok := metric.Tags["host"]; !ok || host == "" {
+				metric.Tags["host"] = hostname
+			}
 		}
 		if metric.Timestamp < 1e9 || metric.Timestamp > 1e10 {
 			metric.Timestamp = now
