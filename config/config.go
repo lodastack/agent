@@ -11,15 +11,24 @@ import (
 
 const (
 	//APP NAME
-	AppName = "Agent"
+	AppName = "Monitor Agent"
 	//Usage
 	Usage = "Agent Usage"
-	//Vresion Num
-	Version = "0.0.1"
 	//Author Nmae
 	Author = "devlopers@LodaStack"
 	//Email Address
 	Email = "devlopers@lodastack.com"
+)
+
+var (
+	//Vresion Num
+	Version = ""
+	//Vresion Commit
+	Commit = ""
+	//Vresion Branch
+	Branch = ""
+	//Build Time
+	BuildTime = ""
 )
 
 const (
