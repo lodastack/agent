@@ -49,7 +49,7 @@ func (n *NSQ) Write(queue chan outputs.Data) {
 			log.Warning("Publish to nsq failed: ", err)
 			if i == l-1 {
 				if !strings.Contains(err.Error(), "connection refused") {
-					log.Error("send to nsq failed, discard message, namespace: ", data.Namespace, " data: ", string(body))
+					log.Error("send to nsq failed:", err.Error(), "discard message, namespace: ", data.Namespace, " data: ", string(body))
 				} else {
 					select {
 					case queue <- data:
