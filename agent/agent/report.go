@@ -43,6 +43,7 @@ func (a *Agent) report() {
 		NewHostname: hostname,
 		AgentType:   "loda-agent",
 		Update:      false,
+		UpdateTime:  time.Now(),
 	}
 
 	HostnameChanged, OldHostname := common.HostnameChanged()
