@@ -173,14 +173,21 @@ func PluginRunHandler(w http.ResponseWriter, req *http.Request) {
 func PostDataHandler(w http.ResponseWriter, req *http.Request) {
 	q := req.URL.Query()
 	namespace := q.Get("ns")
-	if namespace == "" {
+	ns := common.GetNamespaces()
+	// It's no need to provid ns if this machine only have one ns.
+	if namespace == "" && len(ns) != 1 {
+		w.WriteHeader(http.StatusInternalServerError)
 		io.WriteString(w, "invalid ns\n")
 		return
+	}
+	if namespace == "" {
+		namespace = ns[0]
 	}
 	decoder := json.NewDecoder(req.Body)
 	var metrics []*common.Metric
 	err := decoder.Decode(&metrics)
 	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
 		io.WriteString(w, "failed to decode json:"+err.Error()+"\n")
 		return
 	}
@@ -188,6 +195,7 @@ func PostDataHandler(w http.ResponseWriter, req *http.Request) {
 		metric.Name = common.TYPE_RUN + "." + metric.Name
 	}
 	outputs.SendMetrics(common.TYPE_RUN, namespace, metrics)
+	w.WriteHeader(http.StatusOK)
 	io.WriteString(w, "send data to MQ success\n")
 }
 
