@@ -131,7 +131,7 @@ func HostnameChanged() (bool, string) {
 	if !Exists(Conf.PluginsDir) {
 		if err := os.MkdirAll(Conf.PluginsDir, 0755); err != nil {
 			log.Error("create hostname cache dir failed: ", err)
-			return false, ""
+			return false, h
 		}
 	}
 	file := filepath.Join(Conf.PluginsDir, ".hostname")
@@ -140,18 +140,18 @@ func HostnameChanged() (bool, string) {
 	if os.IsNotExist(err) {
 		if err := ioutil.WriteFile(file, []byte(h), 0644); err != nil {
 			log.Error("write hostname cache file failed: ", err)
-			return false, ""
+			return false, h
 		}
 	}
 	if err != nil {
 		log.Error("Read hostname cache file failed: ", err)
-		return false, ""
+		return false, h
 	}
 	if string(read) != h {
 		log.Infof("Hostname chaged: %s -> %s", string(read), h)
 		return true, string(read)
 	}
-	return false, ""
+	return false, h
 }
 
 func IPChanged() (bool, []string) {
