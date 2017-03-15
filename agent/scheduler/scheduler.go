@@ -1,6 +1,7 @@
 package scheduler
 
 import (
+	"math/rand"
 	"reflect"
 	"sync"
 	"time"
@@ -12,6 +13,10 @@ import (
 	"github.com/lodastack/agent/agent/sysinfo"
 	"github.com/lodastack/log"
 )
+
+// unit: second
+// update NS interval
+const updateInterval = 60
 
 var (
 	mutex sync.Mutex
@@ -34,9 +39,13 @@ func Start() {
 	GoPluginSchedulers = make(map[string]*Scheduler)
 
 	go func() {
+		Update()
+		// LB update NS API
+		randNum := rand.Intn(updateInterval * 1000)
+		time.Sleep(time.Duration(randNum) * time.Millisecond)
 		for {
 			Update()
-			time.Sleep(time.Minute * 1)
+			time.Sleep(time.Second * updateInterval)
 		}
 	}()
 
