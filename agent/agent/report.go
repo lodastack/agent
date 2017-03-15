@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"math/rand"
 	"net/http"
 	"path/filepath"
 	"runtime"
@@ -17,9 +18,17 @@ import (
 	"github.com/lodastack/models"
 )
 
+// unit: minute
+// agent report interval
+const reportInterval = 10
+
 func (a *Agent) Report() {
 	a.report()
-	for range time.NewTicker(time.Minute * 10).C {
+	// LB report API
+	randNum := rand.Intn(reportInterval * 60 * 1000)
+	time.Sleep(time.Duration(randNum) * time.Millisecond)
+
+	for range time.NewTicker(time.Minute * reportInterval).C {
 		a.report()
 	}
 }
