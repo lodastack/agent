@@ -42,7 +42,10 @@ func IP() (ips []string, err error) {
 				ip = v.IP
 			}
 
-			if ip == nil || ip.IsLoopback() {
+			// IP filter
+			// 224.0.0
+			// 169.254.0.0/16
+			if ip == nil || ip.IsLoopback() || ip.IsLinkLocalMulticast() || ip.IsLinkLocalUnicast() {
 				continue
 			}
 
