@@ -1,7 +1,7 @@
 [agent]
 	listen = "0.0.0.0:1232"
 	ifaceprefix = [ "eth" ]
-	registryaddr = "registry.test.com"
+	registryaddr = "https://registry.test.com"
 	pluginsdir = "/usr/local/agent-plugins"
 	pluginsuser = "user"
 	git = "git://git@git.test.com/%s.git"

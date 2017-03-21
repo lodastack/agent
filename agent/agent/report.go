@@ -67,7 +67,7 @@ func (a *Agent) report() {
 	if err != nil {
 		log.Error("json.Marshal failed: ", data)
 	} else {
-		url := fmt.Sprintf("http://%s/api/v1/agent/report", a.Config.RegistryAddr)
+		url := fmt.Sprintf("%s/api/v1/agent/report", a.Config.RegistryAddr)
 		resp, err := http.Post(url, "application/json;charset=utf-8", bytes.NewBuffer(jsonData))
 		if err != nil {
 			log.Error("report agent info failed: ", err)
