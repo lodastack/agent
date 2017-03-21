@@ -74,7 +74,7 @@ func Ns() ([]string, error) {
 		return res, fmt.Errorf("hostname changed, skip fetch ns")
 	}
 
-	url := fmt.Sprintf("http://%s/api/v1/agent/ns", common.Conf.RegistryAddr)
+	url := fmt.Sprintf("%s/api/v1/agent/ns", common.Conf.RegistryAddr)
 	data := make(map[string]string)
 	data["hostname"] = host
 	data["ip"] = strings.Join(common.GetIpList(), ",")
@@ -107,7 +107,7 @@ func Ns() ([]string, error) {
 }
 
 func pullResources(ns string) (res []map[string]string, err error) {
-	url := fmt.Sprintf("http://%s/api/v1/agent/resource?ns=%s&type=collect", common.Conf.RegistryAddr, ns)
+	url := fmt.Sprintf("%s/api/v1/agent/resource?ns=%s&type=collect", common.Conf.RegistryAddr, ns)
 	b, err := Get(url)
 	if err != nil {
 		return
