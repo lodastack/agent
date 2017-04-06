@@ -1,6 +1,16 @@
-## v0.1.1 [unreleased]
+## v0.1.2 [unreleased]
 
 ### Release Notes
+
+### Bugfixes
+
+- [#48](https://github.com/lodastack/agent/pull/48): Update process proc CPU
+
+## v0.1.1 [2017-03-31]
+
+### Release Notes
+
+- [#47](https://github.com/lodastack/agent/pull/47): Support HTTPS scheme
 
 ### Bugfixes
 
