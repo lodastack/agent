@@ -5,7 +5,7 @@ import (
 )
 
 const (
-	EXCEPTION_NS = "collect.exception.monitor.loda"
+	EXCEPTION_NS = "exception.monitor.loda"
 	HOST_SUFFIX  = ""
 )
 
