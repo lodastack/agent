@@ -18,10 +18,20 @@ var CmdStop = cli.Command{
 	Usage:       "关闭客户端",
 	Description: "关闭Agent客户端",
 	Action:      runStop,
+	Flags: []cli.Flag{
+		cli.StringFlag{
+			Name:  "m",
+			Value: "normal",
+			Usage: "stop agent mode",
+		},
+	},
 }
 
 func runStop(c *cli.Context) {
 	stopAgent()
+	if c.String("m") == "clean" {
+		cleanData()
+	}
 }
 
 func stopAgent() {
@@ -54,4 +64,13 @@ func stopAgent() {
 		fmt.Printf("send signal to process successfully and remove pid error: %s ", err)
 	}
 	fmt.Printf("send signal to process successfully ")
+}
+
+func cleanData() {
+	// TODO:stop don't know the data dir, data dir is a var, need to use signal to pass remove cmd.
+	if err := os.RemoveAll("/usr/local/agent-plugins"); err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	fmt.Println("clean agent data finish")
 }

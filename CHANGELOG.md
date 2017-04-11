@@ -2,6 +2,8 @@
 
 ### Release Notes
 
+- [#49](https://github.com/lodastack/agent/pull/49): support clean data dir in stop command
+
 ### Bugfixes
 
 - [#48](https://github.com/lodastack/agent/pull/48): Update process proc CPU
