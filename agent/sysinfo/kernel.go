@@ -2,7 +2,6 @@ package sysinfo
 
 import (
 	"bytes"
-	"math"
 	"os/exec"
 
 	"github.com/lodastack/agent/agent/common"
@@ -26,7 +25,7 @@ func FsKernelMetrics() (L []*common.Metric) {
 		return
 	}
 
-	v := math.Ceil(float64(allocateFiles) * 100 / float64(maxFiles))
+	v := common.SetPrecision(float64(allocateFiles)*100/float64(maxFiles), 2)
 	L = append(L, toMetric("kernel.files.allocated", allocateFiles, nil))
 	L = append(L, toMetric("kernel.files.allocated.percent", v, nil))
 	L = append(L, toMetric("kernel.files.left", maxFiles-allocateFiles, nil))
