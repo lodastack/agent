@@ -7,6 +7,7 @@
 ### Bugfixes
 
 - [#48](https://github.com/lodastack/agent/pull/48): Update process proc CPU
+- [#50](https://github.com/lodastack/agent/pull/50): remove math.Ceil from statics
 
 ## v0.1.1 [2017-03-31]
 

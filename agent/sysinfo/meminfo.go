@@ -1,8 +1,6 @@
 package sysinfo
 
 import (
-	"math"
-
 	"github.com/lodastack/agent/agent/common"
 
 	"github.com/lodastack/log"
@@ -21,12 +19,12 @@ func MemMetrics() []*common.Metric {
 
 	pmemUsed := 0.0
 	if m.MemTotal != 0 {
-		pmemUsed = math.Ceil(float64(memUsed) * 100.0 / float64(m.MemTotal))
+		pmemUsed = common.SetPrecision(float64(memUsed)*100.0/float64(m.MemTotal), 2)
 	}
 
 	pswapUsed := 0.0
 	if m.SwapTotal != 0 {
-		pswapUsed = math.Ceil(float64(m.SwapUsed) * 100.0 / float64(m.SwapTotal))
+		pswapUsed = common.SetPrecision(float64(m.SwapUsed)*100.0/float64(m.SwapTotal), 2)
 	}
 
 	return []*common.Metric{
