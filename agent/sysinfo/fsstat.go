@@ -32,6 +32,7 @@ func FsSpaceMetrics() (L []*common.Metric) {
 		tags := map[string]string{"mount": du.FsFile}
 		L = append(L, toMetric("fs.inodes.used.percent", du.InodesUsedPercent, tags))
 		L = append(L, toMetric("fs.space.used.percent", du.BlocksUsedPercent, tags))
+		L = append(L, toMetric("fs.space.total", du.BlocksAll, tags))
 	}
 
 	return

@@ -3,6 +3,7 @@
 ### Release Notes
 
 - [#49](https://github.com/lodastack/agent/pull/49): support clean data dir in stop command
+- [#51](https://github.com/lodastack/agent/pull/51): Add fs.space.total to sysinfo
 
 ### Bugfixes
 
