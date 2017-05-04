@@ -1,6 +1,7 @@
 package outputs
 
 import (
+	"errors"
 	"time"
 
 	"github.com/lodastack/agent/agent/common"
@@ -88,6 +89,7 @@ func SendMetrics(ctype string, namespace string, _metrics []*common.Metric) erro
 	case queue <- Data{namespace, data}:
 	default:
 		log.Errorf("queue is full, discard message, namespace: %s", namespace)
+		return errors.New("queue is full, discard message")
 	}
 	return nil
 }
