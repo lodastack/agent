@@ -4,6 +4,7 @@
 
 ### Bugfixes
 
+- [#53](https://github.com/lodastack/agent/pull/53): Don't block if agent queue is full
 
 ## v0.1.2 [2017-05-02]
 

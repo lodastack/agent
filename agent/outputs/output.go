@@ -84,7 +84,11 @@ func SendMetrics(ctype string, namespace string, _metrics []*common.Metric) erro
 		data.Points = append(data.Points, p)
 	}
 
-	queue <- Data{namespace, data}
+	select {
+	case queue <- Data{namespace, data}:
+	default:
+		log.Errorf("queue is full, discard message, namespace: %s", namespace)
+	}
 	return nil
 }
 
