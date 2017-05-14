@@ -1,7 +1,6 @@
 package command
 
 import (
-	"fmt"
 	"io/ioutil"
 	"os"
 	"os/signal"
@@ -33,11 +32,6 @@ var CmdStart = cli.Command{
 }
 
 func runStart(c *cli.Context) {
-	if runtime.GOOS != "linux" {
-		fmt.Printf("Agent don't support this arch: %s\n", runtime.GOOS)
-		os.Exit(1)
-	}
-
 	//parse config file
 	err := config.ParseConfig(c.String("f"))
 	if err != nil {
@@ -45,10 +39,11 @@ func runStart(c *cli.Context) {
 	}
 	//init log setting
 	initLog()
-	//save pid to file
-	ioutil.WriteFile(config.PID, []byte(strconv.Itoa(os.Getpid())), 0744)
-	go Notify()
-
+	if runtime.GOOS != "windows" {
+		//save pid to file
+		ioutil.WriteFile(config.PID, []byte(strconv.Itoa(os.Getpid())), 0744)
+		go Notify()
+	}
 	//start agent module
 	a, err := agent.New(config.C)
 	if err != nil {

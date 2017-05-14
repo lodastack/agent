@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"runtime"
 
 	"github.com/lodastack/agent/command"
 	"github.com/lodastack/agent/config"
@@ -38,6 +39,10 @@ func init() {
 }
 
 func main() {
+	if runtime.GOOS == "windows" {
+		command.WindowsStart()
+		return
+	}
 	app := cli.NewApp()
 	app.EnableBashCompletion = true
 	app.Name = config.AppName

@@ -1,6 +1,8 @@
-## v0.1.3 [unreleased]
+## v0.2.0 [2017-05-18]
 
 ### Release Notes
+
+- [#56](https://github.com/lodastack/agent/pull/56): Support windows
 
 ### Bugfixes
 
