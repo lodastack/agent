@@ -22,6 +22,9 @@ func FsSpaceMetrics() (L []*common.Metric) {
 	}
 
 	for idx := range mountPoints {
+		if mountPoints[idx][0] == "" {
+			continue
+		}
 		var du *nux.DeviceUsage
 		du, err = nux.BuildDeviceUsage(mountPoints[idx][0], mountPoints[idx][1], mountPoints[idx][2])
 		if err != nil {

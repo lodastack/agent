@@ -13,11 +13,11 @@ const MILLION_BIT = 1000000
 const BITS_PER_BYTE = 8
 
 type CumIfStat struct {
-	inBytes  int64
-	outBytes int64
-	inDrop   int64
-	outDrop  int64
-	speed    int64
+	inBytes  uint64
+	outBytes uint64
+	inDrop   uint64
+	outDrop  uint64
+	speed    uint64
 }
 
 var (

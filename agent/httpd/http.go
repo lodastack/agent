@@ -54,6 +54,9 @@ func NewService(listen string) *Service {
 		bindSocket: DefaultUnixSocket,
 		err:        make(chan error),
 	}
+	if runtime.GOOS == "windows" {
+		s.unixSocket = false
+	}
 	return s
 }
 
