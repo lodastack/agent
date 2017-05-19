@@ -196,11 +196,11 @@ func PostDataHandler(w http.ResponseWriter, req *http.Request) {
 	}
 	for _, metric := range metrics {
 		for _, nameLetter := range metric.Name {
-			if nameLetter == '-' || nameLetter == '_' || (nameLetter >= 'a' && nameLetter <= 'z') || (nameLetter >= 'A' && nameLetter <= 'Z') || (nameLetter >= '0' && nameLetter <= '9') {
+			if nameLetter == '-' || nameLetter == '_' || nameLetter == '.' || (nameLetter >= 'a' && nameLetter <= 'z') || (nameLetter >= 'A' && nameLetter <= 'Z') || (nameLetter >= '0' && nameLetter <= '9') {
 				continue
 			}
 			w.WriteHeader(http.StatusBadRequest)
-			io.WriteString(w, "invalid metric name, just allow 0-9 a-z A-Z - _")
+			io.WriteString(w, "invalid metric name, just allow 0-9 a-z A-Z - _ .")
 			return
 		}
 		metric.Name = common.TYPE_RUN + "." + metric.Name
