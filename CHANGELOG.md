@@ -1,10 +1,17 @@
-## v0.2.1 [unrelease]
+## v0.2.2 [unrelease]
 
 ### Release Notes
 
 ### Bugfixes
 
-- [#57](https://github.com/lodastack/agent/pull/57): filter windows DVD driver FS
+## v0.2.1 [2017-05-19]
+
+### Release Notes
+
+### Bugfixes
+
+- [#59](https://github.com/lodastack/agent/pull/59): fix post metric bug
+- [#58](https://github.com/lodastack/agent/pull/58): filter windows DVD driver FS
 
 ## v0.2.0 [2017-05-18]
 
