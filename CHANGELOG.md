@@ -4,6 +4,8 @@
 
 ### Bugfixes
 
+- [#61](https://github.com/lodastack/agent/pull/61): provide random seed
+
 ## v0.2.1 [2017-05-19]
 
 ### Release Notes

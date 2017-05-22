@@ -1,8 +1,10 @@
 package main
 
 import (
+	"math/rand"
 	"os"
 	"runtime"
+	"time"
 
 	"github.com/lodastack/agent/command"
 	"github.com/lodastack/agent/config"
@@ -39,6 +41,8 @@ func init() {
 }
 
 func main() {
+	rand.Seed(int64(time.Now().Nanosecond()))
+
 	if runtime.GOOS == "windows" {
 		command.WindowsStart()
 		return
