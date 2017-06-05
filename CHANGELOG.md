@@ -5,6 +5,7 @@
 ### Bugfixes
 
 - [#61](https://github.com/lodastack/agent/pull/61): provide random seed
+- [#62](https://github.com/lodastack/agent/pull/62): fix interface negative value
 
 ## v0.2.1 [2017-05-19]
 
