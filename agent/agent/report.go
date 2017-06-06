@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"path/filepath"
 	"runtime"
+	"strings"
 	"time"
 
 	"github.com/lodastack/agent/agent/common"
@@ -77,6 +78,10 @@ func (a *Agent) report() {
 				file := filepath.Join(a.Config.PluginsDir, ".hostname")
 				if err := ioutil.WriteFile(file, []byte(data.NewHostname), 0644); err != nil {
 					log.Error("write hostname cache file failed: ", err)
+				}
+				file = filepath.Join(a.Config.PluginsDir, ".ip")
+				if err := ioutil.WriteFile(file, []byte(strings.Join(data.NewIPList, ",")), 0644); err != nil {
+					log.Error("write ip cache file failed: ", err)
 				}
 			} else {
 				log.Errorf("report agent info failed: StatusCode %d", resp.StatusCode)
