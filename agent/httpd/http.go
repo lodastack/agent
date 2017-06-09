@@ -295,7 +295,7 @@ func checkRepo(namespace, repo string) (string, error) {
 		return "", errors.New("invalid repo")
 	}
 	if !checkPlugin(namespace, repo) {
-		return "", errors.New("plugin doesn't exist, add to odin first please")
+		return "", errors.New("plugin doesn't exist, add to loda first please")
 	}
 	return repo, nil
 }

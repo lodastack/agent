@@ -1,4 +1,11 @@
-## v0.2.2 [unrelease]
+## v0.2.3 [unrelease]
+
+### Release Notes
+
+### Bugfixes
+
+
+## v0.2.2 [2017-06-09]
 
 ### Release Notes
 
@@ -6,6 +13,7 @@
 
 - [#61](https://github.com/lodastack/agent/pull/61): provide random seed
 - [#62](https://github.com/lodastack/agent/pull/62): fix interface negative value
+- [#63](https://github.com/lodastack/agent/pull/63): fix update ip cahce file
 
 ## v0.2.1 [2017-05-19]
 
