@@ -2,6 +2,8 @@
 
 ### Release Notes
 
+- [#65](https://github.com/lodastack/agent/pull/65): support collect disk usage blocks metrices
+
 ### Bugfixes
 
 
