@@ -3,6 +3,7 @@
 ### Release Notes
 
 - [#65](https://github.com/lodastack/agent/pull/65): support collect disk usage blocks metrices
+- [#66](https://github.com/lodastack/agent/pull/66): [config breaking change] NTP server configurable
 
 ### Bugfixes
 
