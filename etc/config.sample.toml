@@ -1,6 +1,7 @@
 [agent]
 	listen = "0.0.0.0:1232"
 	ifaceprefix = [ "eth" ]
+	ntpserver = ""
 	registryaddr = "https://registry.test.com"
 	pluginsdir = "/usr/local/agent-plugins"
 	pluginsuser = "user"

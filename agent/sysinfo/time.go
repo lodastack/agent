@@ -117,7 +117,7 @@ type Response struct {
 func TimeMetrics() (L []*common.Metric) {
 	times := 3
 	for i := 1; i <= times; i++ {
-		res, err := Query(ntpserver, ntpversion)
+		res, err := Query(common.Conf.NTPServer, ntpversion)
 		if err != nil && i == times {
 			log.Debugf("query time from NTP server failed: %s", err)
 			return
