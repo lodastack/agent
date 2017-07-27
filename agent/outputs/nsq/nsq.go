@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"math/rand"
+	"net"
 	"net/http"
 	"strings"
 	"time"
@@ -20,6 +21,8 @@ const NAME = "nsq"
 type NSQ struct {
 	Servers []string
 }
+
+const timeout = 2 * time.Second
 
 func (n *NSQ) Description() string {
 	return "Send measurements to NSQD"
@@ -66,7 +69,25 @@ func (n *NSQ) Write(queue chan outputs.Data) {
 
 func httpPost(addr string, data []byte, namespace string) error {
 	url := fmt.Sprintf("http://%s/put?topic=%s", addr, namespace)
-	resp, err := http.Post(url, "application/json;charset=utf-8", bytes.NewBuffer(data))
+	client := &http.Client{
+		Transport: &http.Transport{
+			Dial: func(netw, addr string) (net.Conn, error) {
+				deadline := time.Now().Add(timeout)
+				c, err := net.DialTimeout(netw, addr, timeout)
+				if err != nil {
+					return nil, err
+				}
+				c.SetDeadline(deadline)
+				return c, nil
+			},
+		},
+	}
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer(data))
+	if err != nil {
+		return err
+	}
+	req.Header.Set("Content-Type", "application/json;charset=utf-8")
+	resp, err := client.Do(req)
 	if err != nil {
 		return err
 	}
