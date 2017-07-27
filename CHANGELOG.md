@@ -6,6 +6,7 @@
 
 ### Bugfixes
 
+- [#67](https://github.com/lodastack/agent/pull/67): add post mq timeout
 
 ## v0.2.2 [2017-06-09]
 
