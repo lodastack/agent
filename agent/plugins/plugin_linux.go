@@ -149,9 +149,24 @@ func (self Collector) Execute(timeout int) error {
 		return err
 	}
 
-	for _, m := range metrics {
+	for index, m := range metrics {
+		if err := nameCheck(m.Name); err != nil {
+			metrics = append(metrics[:index], metrics[index+1:]...)
+			log.Errorf("metrics check failed: %s", err)
+			continue
+		}
 		m.Name = self.Name + "." + m.Name
 	}
 	outputs.SendMetrics(common.TYPE_PLUGIN, self.Namespace, metrics)
+	return nil
+}
+
+func nameCheck(name string) error {
+	for _, nameLetter := range name {
+		if nameLetter == '-' || nameLetter == '_' || nameLetter == '.' || (nameLetter >= 'a' && nameLetter <= 'z') || (nameLetter >= 'A' && nameLetter <= 'Z') || (nameLetter >= '0' && nameLetter <= '9') {
+			continue
+		}
+		return errors.New("invalid metric name, just allow 0-9 a-z A-Z - _ .")
+	}
 	return nil
 }
