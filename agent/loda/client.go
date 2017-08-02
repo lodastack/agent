@@ -303,7 +303,7 @@ func formatPlugin(p plugins.Collector) (plugins.Collector, error) {
 	if p.Parameters != "" {
 		for _, s := range strings.Split(p.Parameters, " ") {
 			if s != "" {
-				if strings.ContainsAny(s, ";|&<>`") {
+				if strings.ContainsAny(s, ";|<>`") {
 					return p, errors.New("Invalid parameter")
 				}
 				p.Param = append(p.Param, s)
