@@ -7,6 +7,8 @@
 ### Bugfixes
 
 - [#67](https://github.com/lodastack/agent/pull/67): add post mq timeout
+- [#68](https://github.com/lodastack/agent/pull/68): check plugin report metric name
+- [#69](https://github.com/lodastack/agent/pull/69): remove `&` in plugin security check
 
 ## v0.2.2 [2017-06-09]
 
