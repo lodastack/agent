@@ -303,6 +303,12 @@ func formatPlugin(p plugins.Collector) (plugins.Collector, error) {
 	if p.Parameters != "" {
 		for _, s := range strings.Split(p.Parameters, " ") {
 			if s != "" {
+				// TODO: report to exception NS for alert
+				// outputs.SendMetrics(common.TYPE_SYS, common.EXCEPTION_NS, []*common.Metric{m})
+				if strings.Contains(s, "&&") {
+					return p, errors.New("Invalid parameter")
+				}
+
 				if strings.ContainsAny(s, ";|<>`") {
 					return p, errors.New("Invalid parameter")
 				}
