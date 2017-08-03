@@ -1,4 +1,12 @@
-## v0.2.3 [unrelease]
+## v0.2.4 [unrelease]
+
+### Release Notes
+
+
+### Bugfixes
+
+
+## v0.2.3 [2017-08-03]
 
 ### Release Notes
 
