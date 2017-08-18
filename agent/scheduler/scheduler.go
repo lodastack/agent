@@ -135,7 +135,7 @@ func getFuncsByType(t string) (ret []func() []*common.Metric) {
 	case common.TYPE_MEM:
 		ret = append(ret, sysinfo.MemMetrics)
 	case common.TYPE_FS:
-		ret = append(ret, sysinfo.FsKernelMetrics, sysinfo.FsRWMetrics, sysinfo.FsSpaceMetrics)
+		ret = append(ret, sysinfo.FsKernelMetrics, sysinfo.FsRWMetrics, sysinfo.FsSpaceMetrics, sysinfo.DiskHealthMetrics)
 	case common.TYPE_TIME:
 		ret = append(ret, sysinfo.TimeMetrics)
 	case common.TYPE_NET:
