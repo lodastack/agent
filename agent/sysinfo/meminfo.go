@@ -13,8 +13,12 @@ func MemMetrics() []*common.Metric {
 		log.Error("failed to collect Metrics:", err)
 		return nil
 	}
-
-	memFree := m.MemFree + m.Buffers + m.Cached
+	var memFree uint64
+	if m.MemAvaSupport {
+		memFree = m.MemAvailable
+	} else {
+		memFree = m.MemFree + m.Buffers + m.Cached
+	}
 	memUsed := m.MemTotal - memFree
 
 	pmemUsed := 0.0

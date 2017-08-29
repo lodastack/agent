@@ -1,7 +1,7 @@
 ## v0.2.4 [unrelease]
 
 ### Release Notes
-
+- [#74](https://github.com/lodastack/agent/pull/74): support MemAvailabl metric
 
 ### Bugfixes
 
