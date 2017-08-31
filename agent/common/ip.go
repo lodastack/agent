@@ -24,7 +24,7 @@ func IP() (ips []string, err error) {
 		}
 
 		// ignore docker and warden bridge
-		if strings.HasPrefix(iface.Name, "docker") || strings.HasPrefix(iface.Name, "w-") {
+		if !HasInterfacePrefix(iface.Name) {
 			continue
 		}
 
@@ -61,6 +61,15 @@ func IP() (ips []string, err error) {
 	}
 
 	return ips, nil
+}
+
+func HasInterfacePrefix(ifacename string) bool {
+	for _, prefix := range Conf.IfacePrefix {
+		if strings.HasPrefix(ifacename, prefix) {
+			return true
+		}
+	}
+	return false
 }
 
 func IsIntranet(ipStr string) bool {
