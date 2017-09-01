@@ -1,7 +1,9 @@
 ## v0.2.4 [unrelease]
 
 ### Release Notes
+
 - [#74](https://github.com/lodastack/agent/pull/74): support MemAvailabl metric
+- [#75](https://github.com/lodastack/agent/pull/75): filter report IP list
 
 ### Bugfixes
 
