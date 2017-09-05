@@ -200,6 +200,31 @@ func IOStatsForPage() (L [][]string) {
 	return
 }
 
+func DiskHealthMetrics() (L []*common.Metric) {
+	dh, err := nux.DiskHealth()
+	if err != nil {
+		log.Errorf("disk health failed: %s", err.Error())
+		return
+	}
+	if dh == nil {
+		return
+	}
+	for _, raid := range dh.Raids {
+		tags := make(map[string]string)
+		tags["adapter"] = raid.Adapter
+		L = append(L, toMetric("disk.raid.critNum", raid.Critical, tags))
+		L = append(L, toMetric("disk.raid.FailedNum", raid.Failed, tags))
+	}
+	for _, disk := range dh.Disks {
+		tags := make(map[string]string)
+		tags["deviceID"] = disk.DeviceID
+		L = append(L, toMetric("disk.mediaError", disk.MediaError, tags))
+		L = append(L, toMetric("disk.otherError", disk.OtherError, tags))
+		L = append(L, toMetric("disk.temperature", disk.Temperature, tags))
+	}
+	return
+}
+
 func ShouldHandleDevice(device string) bool {
 	normal := len(device) == 3 && (strings.HasPrefix(device, "sd") || strings.HasPrefix(device, "vd"))
 	aws := len(device) == 4 && strings.HasPrefix(device, "xvd")
