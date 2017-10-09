@@ -2,6 +2,8 @@
 
 ### Release Notes
 
+- [#79](https://github.com/lodastack/agent/pull/79): update nux lib to display disk block metric
+
 ### Bugfixes
 
 
