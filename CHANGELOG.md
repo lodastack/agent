@@ -6,6 +6,7 @@
 
 ### Bugfixes
 
+- [#81](https://github.com/lodastack/agent/pull/81): ignore docker mount points
 
 ## v0.2.4 [2017-09-11]
 
