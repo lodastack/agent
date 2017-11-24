@@ -78,6 +78,7 @@ func Ns() ([]string, error) {
 	data := make(map[string]string)
 	data["hostname"] = host
 	data["ip"] = strings.Join(common.GetIpList(), ",")
+	data["sn"] = common.SN()
 	byteData, err := json.Marshal(data)
 	b, err := Post(url, byteData)
 	if err != nil {

@@ -3,7 +3,7 @@ github.com/StackExchange/wmi ea383cf3ba6ec950874b8486cd72356d007c768f
 github.com/go-ole/go-ole de8695c8edbf8236f30d6e1376e20b198a028d42
 github.com/kardianos/service f6635a45eccea31fd54922e3c1bf7e5e5a5df097
 github.com/lodastack/log b25a4d2e8c2235ee21a1663198a4b26c7f7b4aaa
-github.com/lodastack/models da1dbe669ee902ea2a1b88746397784b16da7708
+github.com/lodastack/models a657bc0c06c6de801eab3d8d146808406e9d21b6
 github.com/lodastack/nux 6268ebcfc392dcca82cf3d278f6166c1f9c0fa03
 github.com/mozillazg/go-pinyin ff1ea6f92b184d58c766c60f96a7a9b5f30fb092
 github.com/oiooj/cli 942282e931e8286aa802a30b01fa7e16befb50f3

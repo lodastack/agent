@@ -43,6 +43,7 @@ func (a *Agent) report() {
 
 	data := models.Report{
 		UUID:        common.GetUUID(),
+		SN:          common.SN(),
 		NewIPList:   common.GetIpList(),
 		Ns:          common.GetNamespaces(),
 		Version:     config.Version,
