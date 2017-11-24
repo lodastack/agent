@@ -1,4 +1,20 @@
-## v0.2.5 [unrelease]
+## v0.2.7 [unreleased]
+
+### Release Notes
+
+### Bugfixes
+
+
+## v0.2.6 [2017-11-24]
+
+### Release Notes
+
+- [#81](https://github.com/lodastack/agent/pull/81): support report machine serial number
+
+### Bugfixes
+
+
+## v0.2.5 [2017-11-03]
 
 ### Release Notes
 
