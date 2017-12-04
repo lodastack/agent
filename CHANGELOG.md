@@ -4,6 +4,7 @@
 
 ### Bugfixes
 
+- [#84](https://github.com/lodastack/agent/pull/84): fix disk io util negative value issue
 
 ## v0.2.6 [2017-11-24]
 
