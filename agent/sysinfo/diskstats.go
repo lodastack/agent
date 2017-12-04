@@ -146,7 +146,9 @@ func IOStatsMetrics() (L []*common.Metric) {
 		if tmp > 100.0 {
 			tmp = 100.0
 		}
-		L = append(L, toMetric("disk.io.util", tmp, tags))
+		if tmp >= 0 {
+			L = append(L, toMetric("disk.io.util", tmp, tags))
+		}
 	}
 
 	return
