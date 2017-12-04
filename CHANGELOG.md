@@ -2,6 +2,8 @@
 
 ### Release Notes
 
+- [#85](https://github.com/lodastack/agent/pull/85): support windows serial number collect
+
 ### Bugfixes
 
 - [#84](https://github.com/lodastack/agent/pull/84): fix disk io util negative value issue
