@@ -1,4 +1,12 @@
-## v0.2.7 [unreleased]
+## v0.2.8 [unreleased]
+
+### Release Notes
+
+
+### Bugfixes
+
+
+## v0.2.7 [2017-12-12]
 
 ### Release Notes
 
