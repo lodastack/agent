@@ -1,6 +1,7 @@
 github.com/BurntSushi/toml 3883ac1ce943878302255f538fce319d23226223
 github.com/StackExchange/wmi ea383cf3ba6ec950874b8486cd72356d007c768f
 github.com/go-ole/go-ole de8695c8edbf8236f30d6e1376e20b198a028d42
+github.com/google/gopacket b42c052c5272831e5d93ddd6b5a261a78e753e3e
 github.com/kardianos/service f6635a45eccea31fd54922e3c1bf7e5e5a5df097
 github.com/lodastack/log b25a4d2e8c2235ee21a1663198a4b26c7f7b4aaa
 github.com/lodastack/models a657bc0c06c6de801eab3d8d146808406e9d21b6
