@@ -17,9 +17,15 @@ type Metric struct {
 	Offset    int64             `json:"offset,omitempty"`
 }
 
-func (self *Metric) String() string {
+// String series metric
+func (m *Metric) String() string {
 	//offset might by empty(0)
-	return fmt.Sprintf("<%s %d %s %v %d>", self.Name, self.Timestamp, self.Tags, self.Value, self.Offset)
+	return fmt.Sprintf("<%s %d %s %v %d>", m.Name, m.Timestamp, m.Tags, m.Value, m.Offset)
+}
+
+// key returns metric key
+func (m *Metric) Key() string {
+	return fmt.Sprintf("<%s%d%s>", m.Name, m.Timestamp, m.Tags)
 }
 
 type Point struct {

@@ -2,9 +2,11 @@
 
 ### Release Notes
 
+- [#87](https://github.com/lodastack/agent/pull/87): support pcap IPv4 metric collect
 
 ### Bugfixes
 
+- [#88](https://github.com/lodastack/agent/pull/88): fix PID file bug
 
 ## v0.2.7 [2017-12-12]
 
