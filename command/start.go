@@ -39,11 +39,7 @@ func runStart(c *cli.Context) {
 	}
 	//init log setting
 	initLog()
-	if runtime.GOOS != "windows" {
-		//save pid to file
-		ioutil.WriteFile(config.PID, []byte(strconv.Itoa(os.Getpid())), 0744)
-		go Notify()
-	}
+
 	//start agent module
 	a, err := agent.New(config.C)
 	if err != nil {
@@ -54,6 +50,11 @@ func runStart(c *cli.Context) {
 	}
 	// Print sweet Agent logo.
 	PrintLogo()
+	if runtime.GOOS != "windows" {
+		//save pid to file
+		ioutil.WriteFile(config.PID, []byte(strconv.Itoa(os.Getpid())), 0644)
+		go Notify()
+	}
 	select {}
 }
 
