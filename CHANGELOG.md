@@ -7,6 +7,7 @@
 ### Bugfixes
 
 - [#88](https://github.com/lodastack/agent/pull/88): fix PID file bug
+- [#89](https://github.com/lodastack/agent/pull/89): fix output panic
 
 ## v0.2.7 [2017-12-12]
 
