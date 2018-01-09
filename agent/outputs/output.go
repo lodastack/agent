@@ -37,7 +37,7 @@ var (
 )
 
 func SendMetrics(ctype string, namespace string, _metrics []*common.Metric) error {
-	if len(_metrics) == 0 {
+	if len(_metrics) == 0 || _metrics == nil {
 		return nil
 	}
 	// avoid multi-NS panic, deep copy metrics

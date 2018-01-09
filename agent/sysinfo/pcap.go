@@ -47,7 +47,7 @@ func PcapMetric() (L []*common.Metric) {
 		var IPAddress string
 		addrs, e := iface.Addrs()
 		if e != nil {
-			return
+			continue
 		}
 		for _, addr := range addrs {
 			var ip net.IP
@@ -75,7 +75,7 @@ func PcapMetric() (L []*common.Metric) {
 		}
 
 		if IPAddress == "" {
-			return
+			continue
 		}
 
 		wg.Add(1)
