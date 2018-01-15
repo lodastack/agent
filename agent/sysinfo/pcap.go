@@ -21,8 +21,9 @@ const (
 	maxPacketSize               = 30
 )
 
-// PcapMetric dep pcap lib
-func PcapMetric() (L []*common.Metric) {
+// PcapMetrics dep pcap lib
+func PcapMetrics() (L []*common.Metric) {
+	var mu sync.Mutex
 	ifaces, err := net.Interfaces()
 	if err != nil {
 		log.Error("collect net interfaces error:", err)
@@ -102,7 +103,9 @@ func PcapMetric() (L []*common.Metric) {
 							statics[m.Key()] = m
 							if len(statics) > maxPacketSize {
 								for _, lm := range statics {
+									mu.Lock()
 									L = append(L, lm)
+									mu.Unlock()
 								}
 								return
 							}
