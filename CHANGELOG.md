@@ -8,6 +8,7 @@
 
 - [#88](https://github.com/lodastack/agent/pull/88): fix PID file bug
 - [#89](https://github.com/lodastack/agent/pull/89): fix output panic
+- [#90](https://github.com/lodastack/agent/pull/90): fix pcap data race
 
 ## v0.2.7 [2017-12-12]
 
