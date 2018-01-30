@@ -132,10 +132,13 @@ func IOStatsMetrics() (L []*common.Metric) {
 		ruse := IODelta(device, IOMsecRead)
 		wuse := IODelta(device, IOMsecWrite)
 		use := IODelta(device, IOMsecTotal)
-		n_io := rio + wio
+		nio := rio + wio
 		await := 0.0
-		if n_io != 0 {
-			await = common.SetPrecision(float64(ruse+wuse)/float64(n_io), 2)
+		if nio != 0 {
+			await = common.SetPrecision(float64(ruse+wuse)/float64(nio), 2)
+		}
+		if await < 0 {
+			await = 0.0
 		}
 
 		duration := IODelta(device, TS)
