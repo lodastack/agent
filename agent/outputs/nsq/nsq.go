@@ -17,6 +17,7 @@ import (
 )
 
 const NAME = "nsq"
+const maxBatchPoints = 30
 
 type NSQ struct {
 	Servers []string
@@ -32,9 +33,31 @@ func (n *NSQ) SetServers(servers []string) {
 	n.Servers = servers
 }
 
+func merge(batch outputs.Data, data outputs.Data) (outputs.Data, bool) {
+	if batch.Points == nil {
+		return data, true
+	}
+	if data.Namespace == batch.Namespace && len(batch.Points.Points) < maxBatchPoints {
+		batch.Points.Points = append(batch.Points.Points, data.Points.Points...)
+		return batch, true
+	}
+	return batch, false
+}
+
 func (n *NSQ) Write(queue chan outputs.Data) {
+	var batch outputs.Data
 	for {
 		data := <-queue
+
+		// merge same NS data points, reduce TCP overhead
+		batch, merged := merge(batch, data)
+		if merged {
+			continue
+		}
+		queue <- data
+		data = batch
+		batch = outputs.Data{}
+
 		body, err := json.Marshal(data.Points)
 		if err != nil {
 			log.Error("marshal datapoint:", data, " failed. error:", err)
