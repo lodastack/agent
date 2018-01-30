@@ -5,7 +5,7 @@
 
 ### Bugfixes
 
-
+- [#92](https://github.com/lodastack/agent/pull/92): fix disk io await negative value issue
 
 ## v0.2.8 [2018-01-04]
 
