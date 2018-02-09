@@ -5,6 +5,7 @@ import (
 
 	"github.com/lodastack/agent/agent/common"
 	"github.com/lodastack/agent/agent/outputs"
+	"github.com/lodastack/agent/trace"
 
 	"github.com/BurntSushi/toml"
 )
@@ -44,6 +45,7 @@ var (
 type Config struct {
 	Agent  common.AgentConfig `toml:"agent"`
 	Output outputs.Config     `toml:"output"`
+	Trace  trace.Config       `toml:"trace"`
 	Log    LogConfig          `toml:"log"`
 }
 

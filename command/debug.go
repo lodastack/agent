@@ -1,66 +1,12 @@
 package command
 
 import (
-	"io/ioutil"
 	"os"
 	"runtime"
 	"runtime/pprof"
-	"strconv"
 
-	"github.com/lodastack/agent/agent/agent"
-	"github.com/lodastack/agent/config"
 	"github.com/lodastack/log"
-
-	"github.com/oiooj/cli"
 )
-
-var CmdDebug = cli.Command{
-	Name:        "debug",
-	Usage:       "调试模式",
-	Description: "调试模式",
-	Action:      runDebug,
-	Flags: []cli.Flag{
-		cli.StringFlag{
-			Name:  "f",
-			Value: "/etc/monitor-agent.conf",
-			Usage: "配置文件路径，默认位置：/etc/monitor-agent.conf",
-		},
-		cli.StringFlag{
-			Name:  "cpuprofile",
-			Value: "/tmp/cpu.pprof",
-			Usage: "CPU pprof file",
-		},
-		cli.StringFlag{
-			Name:  "memprofile",
-			Value: "/tmp/mem.pprof",
-			Usage: "Memory pprof file",
-		},
-	},
-}
-
-func runDebug(c *cli.Context) {
-	// parse config file
-	err := config.ParseConfig(c.String("f"))
-	if err != nil {
-		log.Fatalf("Parse Config File Error : " + err.Error())
-	}
-	// init dlog setting
-	initLog()
-	// save pid to file
-	ioutil.WriteFile(config.PID, []byte(strconv.Itoa(os.Getpid())), 0744)
-	go Notify()
-
-	//start agent module
-	a, err := agent.New(config.C)
-	if err != nil {
-		log.Fatalf("New agent Error : " + err.Error())
-	}
-	a.Start()
-
-	// start pprof
-	startProfile(c.String("cpuprofile"), c.String("memprofile"))
-	select {}
-}
 
 // prof stores the file locations of active profiles.
 var prof struct {

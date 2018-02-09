@@ -10,6 +10,7 @@ import (
 
 	"github.com/lodastack/agent/agent/agent"
 	"github.com/lodastack/agent/config"
+	"github.com/lodastack/agent/trace"
 	"github.com/lodastack/log"
 
 	"github.com/oiooj/cli"
@@ -19,14 +20,24 @@ var logBackend *log.FileBackend
 
 var CmdStart = cli.Command{
 	Name:        "start",
-	Usage:       "启动客户端",
-	Description: "启动Agent客户端",
+	Usage:       "start agent",
+	Description: "start agent client",
 	Action:      runStart,
 	Flags: []cli.Flag{
 		cli.StringFlag{
 			Name:  "f",
 			Value: "/etc/agent.conf",
-			Usage: "配置文件路径，默认位置：/etc/agent.conf",
+			Usage: "default config file：/etc/agent.conf",
+		},
+		cli.StringFlag{
+			Name:  "cpuprofile",
+			Value: "",
+			Usage: "CPU pprof file",
+		},
+		cli.StringFlag{
+			Name:  "memprofile",
+			Value: "",
+			Usage: "Memory pprof file",
 		},
 	},
 }
@@ -55,6 +66,17 @@ func runStart(c *cli.Context) {
 		ioutil.WriteFile(config.PID, []byte(strconv.Itoa(os.Getpid())), 0644)
 		go Notify()
 	}
+	// trace module
+	t, err := trace.New(config.C.Trace.Collector, config.C.Log.Dir)
+	if err != nil {
+		log.Errorf("new trace agent failed: %s", err.Error())
+	} else {
+		// allow trace module start failed here
+		if err = t.Start(); err != nil {
+			log.Errorf("trace agent start failed: %s", err.Error())
+		}
+	}
+	startProfile(c.String("cpuprofile"), c.String("memprofile"))
 	select {}
 }
 
