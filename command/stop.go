@@ -15,8 +15,8 @@ import (
 
 var CmdStop = cli.Command{
 	Name:        "stop",
-	Usage:       "关闭客户端",
-	Description: "关闭Agent客户端",
+	Usage:       "stop agent",
+	Description: "stop agent client",
 	Action:      runStop,
 	Flags: []cli.Flag{
 		cli.StringFlag{

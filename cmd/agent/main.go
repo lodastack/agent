@@ -59,7 +59,6 @@ func main() {
 		command.CmdStart,
 		command.CmdStop,
 		command.CmdVersion,
-		command.CmdDebug,
 	}
 
 	app.Flags = append(app.Flags, []cli.Flag{}...)

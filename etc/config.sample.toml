@@ -11,6 +11,9 @@
 	servers = [ "0.0.0.0:7777" ]
 	buffersize = 1000
 
+[trace]
+	collector = [ "0.0.0.0:1233" ]
+
 [log]
 	logdir = "/tmp/agent/log"
 	loglevel = "DEBUG"
