@@ -41,6 +41,10 @@ func (a *Agent) report() {
 		return
 	}
 
+	if hostname == "" {
+		return
+	}
+
 	data := models.Report{
 		UUID:        common.GetUUID(),
 		SN:          common.SN(),
