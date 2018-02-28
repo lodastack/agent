@@ -1,7 +1,24 @@
-## v0.2.9 [unrelease]
+## v0.3.0 [2018-02-28]
+
+### Breaking Changes
+
+Add trace config in config file:
+
+```
+
+[trace]
+	collector = [ "0.0.0.0:1233" ]
+
+```
+
+if you don't config this , agent will work fun.
 
 ### Release Notes
 
+- [#94](https://github.com/lodastack/agent/pull/94): use dep for dependency management
+- [#95](https://github.com/lodastack/agent/pull/95): jeager trace support
+- [#95](https://github.com/lodastack/agent/pull/95): remove debug subcommand
+- [#97](https://github.com/lodastack/agent/pull/97): fix hostname change bug
 
 ### Bugfixes
 
