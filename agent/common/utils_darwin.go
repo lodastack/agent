@@ -124,7 +124,7 @@ func ReadLinesFromOffset(fpath string, offset int64, lineNum int64) (lines []str
 
 func HostnameChanged() (bool, string) {
 	h, err := Hostname()
-	if err != nil {
+	if err != nil || h == "" {
 		return false, ""
 	}
 
