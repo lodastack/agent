@@ -19,8 +19,8 @@ var defaultProcessors = []struct {
 	protocol app.Protocol
 	hostPort string
 }{
-	{model: "jaeger", protocol: "compact", hostPort: ":6831"},
-	{model: "jaeger", protocol: "binary", hostPort: ":6832"},
+	{model: "jaeger", protocol: "compact", hostPort: "localhost:6831"},
+	{model: "jaeger", protocol: "binary", hostPort: "localhost:6832"},
 }
 
 const (
@@ -29,7 +29,7 @@ const (
 	defaultServerWorkers = 10
 	defaultMinPeers      = 3
 
-	defaultHTTPServerHostPort = ":5778"
+	defaultHTTPServerHostPort = "localhost:5778"
 )
 
 // Tracer custom struct
