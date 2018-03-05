@@ -1,3 +1,12 @@
+## v0.3.1 [unrelease]
+
+### Release Notes
+
+- [#99](https://github.com/lodastack/agent/pull/99): only listen on `localhost` for trace
+
+### Bugfixes
+
+
 ## v0.3.0 [2018-02-28]
 
 ### Breaking Changes
