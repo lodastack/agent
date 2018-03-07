@@ -6,6 +6,8 @@
 
 ### Bugfixes
 
+- [#100](https://github.com/lodastack/agent/pull/100): fix disk remove bug
+
 
 ## v0.3.0 [2018-02-28]
 

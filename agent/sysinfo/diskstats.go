@@ -29,6 +29,21 @@ func UpdateDiskStats() error {
 		device := dsList[i].Device
 		diskStatsMap[device] = [2]*nux.DiskStats{dsList[i], diskStatsMap[device][0]}
 	}
+	// remove disks
+	found := false
+	for device := range diskStatsMap {
+		for i := 0; i < len(dsList); i++ {
+			deviceName := dsList[i].Device
+			if deviceName == device {
+				found = true
+				break
+			}
+		}
+		if !found {
+			delete(diskStatsMap, device)
+		}
+		found = false
+	}
 	return nil
 }
 
