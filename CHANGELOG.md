@@ -3,6 +3,7 @@
 ### Release Notes
 
 - [#99](https://github.com/lodastack/agent/pull/99): only listen on `localhost` for trace
+- [#101](https://github.com/lodastack/agent/pull/101): support IPv6
 
 ### Bugfixes
 
