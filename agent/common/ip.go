@@ -2,10 +2,10 @@ package common
 
 import (
 	"net"
-	"strconv"
 	"strings"
 )
 
+// IP gets all IP from given if prefix
 func IP() (ips []string, err error) {
 	ips = make([]string, 0)
 
@@ -45,13 +45,10 @@ func IP() (ips []string, err error) {
 			// IP filter
 			// 224.0.0
 			// 169.254.0.0/16
+			// ff02::/16
+			// ffx2::/16
 			if ip == nil || ip.IsLoopback() || ip.IsLinkLocalMulticast() || ip.IsLinkLocalUnicast() {
 				continue
-			}
-
-			ip = ip.To4()
-			if ip == nil {
-				continue // not an ipv4 address
 			}
 
 			ipStr := ip.String()
@@ -69,30 +66,5 @@ func HasInterfacePrefix(ifacename string) bool {
 			return true
 		}
 	}
-	return false
-}
-
-func IsIntranet(ipStr string) bool {
-	if strings.HasPrefix(ipStr, "10.") || strings.HasPrefix(ipStr, "192.168.") {
-		return true
-	}
-
-	if strings.HasPrefix(ipStr, "172.") {
-		// 172.16.0.0-172.31.255.255
-		arr := strings.Split(ipStr, ".")
-		if len(arr) != 4 {
-			return false
-		}
-
-		second, err := strconv.ParseInt(arr[1], 10, 64)
-		if err != nil {
-			return false
-		}
-
-		if second >= 16 && second <= 31 {
-			return true
-		}
-	}
-
 	return false
 }
