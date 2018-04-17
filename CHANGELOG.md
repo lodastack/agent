@@ -3,11 +3,12 @@
 ### Release Notes
 
 - [#99](https://github.com/lodastack/agent/pull/99): only listen on `localhost` for trace
-- [#101](https://github.com/lodastack/agent/pull/101): support IPv6
+- [#101](https://github.com/lodastack/agent/pull/101): support IPv6 address report
 
 ### Bugfixes
 
 - [#100](https://github.com/lodastack/agent/pull/100): fix disk remove bug
+- [#104](https://github.com/lodastack/agent/pull/104): close FS monitor file ASAP
 
 
 ## v0.3.0 [2018-02-28]

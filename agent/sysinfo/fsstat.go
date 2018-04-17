@@ -82,13 +82,13 @@ func CheckFS(file string, content string, t string) error {
 	if t == "rw" {
 		//write test
 		fd, err := os.OpenFile(file, os.O_RDWR|os.O_CREATE, 0644)
-		defer fd.Close()
 		if err != nil {
 			log.Error("Open file failed: ", err)
 			return err
 		}
 		buf := []byte(content)
 		count, err := fd.Write(buf)
+		fd.Close()
 		if err != nil || count != len(buf) {
 			log.Error("Write file failed: ", err)
 			return err
