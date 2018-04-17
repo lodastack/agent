@@ -4,6 +4,7 @@
 
 - [#99](https://github.com/lodastack/agent/pull/99): only listen on `localhost` for trace
 - [#101](https://github.com/lodastack/agent/pull/101): support IPv6
+- [#105](https://github.com/lodastack/agent/pull/105): add agent traffic API
 
 ### Bugfixes
 
