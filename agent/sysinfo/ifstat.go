@@ -23,6 +23,8 @@ type CumIfStat struct {
 var (
 	historyIfStat map[string]CumIfStat
 	lastTime      time.Time
+	// LatestIfStat is the lastes data for HTTP API
+	LatestIfStat []*common.Metric
 )
 
 func NetMetrics() (ret []*common.Metric) {
@@ -73,7 +75,7 @@ func NetMetrics() (ret []*common.Metric) {
 
 			ret = append(ret, toMetric("net.speed", stat.speed, tags))
 		}
-
+		LatestIfStat = ret
 	}
 	historyIfStat = newIfStat
 	return
