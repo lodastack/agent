@@ -1,3 +1,12 @@
+## v0.3.2 [unrelease]
+
+### Release Notes
+
+
+### Bugfixes
+
+
+
 ## v0.3.1 [2018-04-18]
 
 ### Release Notes
