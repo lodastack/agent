@@ -27,6 +27,6 @@ func SN() string {
 		return ""
 	}
 	list := strings.Split(string(out), "SerialNumber")
-	serialNumber = strings.TrimSpace(list[len(list)-1])
+	serialNumber = strings.Replace(list[len(list)-1], " ", "", -1)
 	return serialNumber
 }
