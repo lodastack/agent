@@ -5,6 +5,7 @@
 
 ### Bugfixes
 
+- [#107](https://github.com/lodastack/agent/pull/107): trim SN space on Windows 
 
 
 ## v0.3.1 [2018-04-18]
