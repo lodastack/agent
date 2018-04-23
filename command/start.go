@@ -10,6 +10,7 @@ import (
 
 	"github.com/lodastack/agent/agent/agent"
 	"github.com/lodastack/agent/config"
+	"github.com/lodastack/agent/member"
 	"github.com/lodastack/agent/trace"
 	"github.com/lodastack/log"
 
@@ -69,13 +70,21 @@ func runStart(c *cli.Context) {
 	// trace module
 	t, err := trace.New(config.C.Trace.Collector, config.C.Log.Dir)
 	if err != nil {
-		log.Errorf("new trace agent failed: %s", err.Error())
+		log.Errorf("new trace module failed: %s", err.Error())
 	} else {
 		// allow trace module start failed here
 		if err = t.Start(); err != nil {
-			log.Errorf("trace agent start failed: %s", err.Error())
+			log.Errorf("trace module start failed: %s", err.Error())
 		}
 	}
+	// member module
+	if config.C.Member.Enable {
+		if err := member.Member.Start(config.C.Member.Nodes, config.C.Member.Key); err != nil {
+			log.Errorf("member module start failed: %s", err)
+		}
+		log.Info("member module started")
+	}
+	//pprof
 	startProfile(c.String("cpuprofile"), c.String("memprofile"))
 	select {}
 }

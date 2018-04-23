@@ -5,6 +5,7 @@ import (
 
 	"github.com/lodastack/agent/agent/common"
 	"github.com/lodastack/agent/agent/outputs"
+	"github.com/lodastack/agent/member"
 	"github.com/lodastack/agent/trace"
 
 	"github.com/BurntSushi/toml"
@@ -46,6 +47,7 @@ type Config struct {
 	Agent  common.AgentConfig `toml:"agent"`
 	Output outputs.Config     `toml:"output"`
 	Trace  trace.Config       `toml:"trace"`
+	Member member.Config      `toml:"member"`
 	Log    LogConfig          `toml:"log"`
 }
 

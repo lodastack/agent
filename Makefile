@@ -7,7 +7,7 @@ fmt:
 	gofmt -l -w -s ./
 
 dep:fmt
-	dep ensure
+	dep ensure -v
 
 install:dep
 	go install agent

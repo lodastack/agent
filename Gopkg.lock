@@ -26,6 +26,12 @@
 
 [[projects]]
   branch = "master"
+  name = "github.com/armon/go-metrics"
+  packages = ["."]
+  revision = "783273d703149aaeb9897cf58613d5af48861c25"
+
+[[projects]]
+  branch = "master"
   name = "github.com/beorn7/perks"
   packages = ["quantile"]
   revision = "4c0e84591b9aa9e6dcfdf3e020114cd81f89d5f9"
@@ -80,6 +86,42 @@
 
 [[projects]]
   branch = "master"
+  name = "github.com/hashicorp/errwrap"
+  packages = ["."]
+  revision = "7554cd9344cec97297fa6649b055a8c98c2a1e55"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/hashicorp/go-immutable-radix"
+  packages = ["."]
+  revision = "7f3cd4390caab3250a57f30efdb2a65dd7649ecf"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/hashicorp/go-msgpack"
+  packages = ["codec"]
+  revision = "fa3f63826f7c23912c15263591e65d54d080b458"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/hashicorp/go-multierror"
+  packages = ["."]
+  revision = "b7773ae218740a7be65057fc60b366a49b538a44"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/hashicorp/go-sockaddr"
+  packages = ["."]
+  revision = "6d291a969b86c4b633730bfc6b8b9d64c3aafed9"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/hashicorp/golang-lru"
+  packages = ["simplelru"]
+  revision = "0fb14efe8c47ae851c0034ed7a448854d3d34cf3"
+
+[[projects]]
+  branch = "master"
   name = "github.com/hashicorp/hcl"
   packages = [
     ".",
@@ -93,6 +135,12 @@
     "json/token"
   ]
   revision = "23c074d0eceb2b8a5bfdbb271ab780cde70f05a8"
+
+[[projects]]
+  name = "github.com/hashicorp/memberlist"
+  packages = ["."]
+  revision = "ce8abaa0c60c2d6bee7219f5ddf500e0a1457b28"
+  version = "v0.1.0"
 
 [[projects]]
   name = "github.com/jaegertracing/jaeger"
@@ -115,7 +163,8 @@
     "thrift-gen/sampling",
     "thrift-gen/zipkincore"
   ]
-  revision = "e2f11500ce0062de5d4a39d7e2f7f20cd714c177"
+  revision = "4650305dd92c6dc220075270d24f0c357d2af8f3"
+  version = "v1.4.1"
 
 [[projects]]
   branch = "master"
@@ -158,6 +207,12 @@
   packages = ["pbutil"]
   revision = "3247c84500bff8d9fb6d579d800f20b3e091582c"
   version = "v1.0.0"
+
+[[projects]]
+  name = "github.com/miekg/dns"
+  packages = ["."]
+  revision = "83c435cc65d2862736428b9b4d07d0ab10ad3e4d"
+  version = "v1.0.5"
 
 [[projects]]
   branch = "master"
@@ -236,6 +291,12 @@
   revision = "75f2d6163c7a100bed6e971044ea3de30ee3a678"
 
 [[projects]]
+  branch = "master"
+  name = "github.com/sean-/seed"
+  packages = ["."]
+  revision = "e2103e2c35297fb7e17febb81e49b312087a2372"
+
+[[projects]]
   name = "github.com/shirou/gopsutil"
   packages = [
     "cpu",
@@ -296,12 +357,14 @@
   name = "github.com/uber/jaeger-lib"
   packages = [
     "metrics",
+    "metrics/adapters",
+    "metrics/expvar",
     "metrics/go-kit",
     "metrics/go-kit/expvar",
     "metrics/prometheus"
   ]
-  revision = "7f95f4f7e80028096410abddaae2556e4c61b59f"
-  version = "v1.3.1"
+  revision = "4267858c0679cd4e47cefed8d7f70fd386cfb567"
+  version = "v1.4.0"
 
 [[projects]]
   name = "github.com/uber/tchannel-go"
@@ -344,8 +407,24 @@
 
 [[projects]]
   branch = "master"
+  name = "golang.org/x/crypto"
+  packages = [
+    "ed25519",
+    "ed25519/internal/edwards25519"
+  ]
+  revision = "e73bf333ef8920dbb52ad18d4bd38ad9d9bc76d7"
+
+[[projects]]
+  branch = "master"
   name = "golang.org/x/net"
-  packages = ["context"]
+  packages = [
+    "bpf",
+    "context",
+    "internal/iana",
+    "internal/socket",
+    "ipv4",
+    "ipv6"
+  ]
   revision = "cbe0f9307d0156177f9dd5dc85da1a31abc5f2fb"
 
 [[projects]]
@@ -383,6 +462,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "0904147b4a3f24efe3cfdd4fe2d16b4eb38eba680d7b1b51bc853642ef8b056e"
+  inputs-digest = "3943fcdc4f877fa21e80c07a3c2df2a74bf58baf29d4b0455336edbcadaf097a"
   solver-name = "gps-cdcl"
   solver-version = 1
