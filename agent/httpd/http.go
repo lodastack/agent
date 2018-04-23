@@ -22,6 +22,7 @@ import (
 	"github.com/lodastack/agent/agent/scheduler"
 	"github.com/lodastack/agent/agent/sysinfo"
 	"github.com/lodastack/agent/config"
+	"github.com/lodastack/agent/member"
 
 	"github.com/lodastack/log"
 )
@@ -248,6 +249,14 @@ func GetTrafficHandler(w http.ResponseWriter, req *http.Request) {
 	io.WriteString(w, string(rep))
 }
 
+func GetMemberHandler(w http.ResponseWriter, req *http.Request) {
+	rep, err := json.Marshal(member.Member.List())
+	if err != nil {
+		io.WriteString(w, "[]")
+	}
+	io.WriteString(w, string(rep))
+}
+
 func LogOffsetHandler(w http.ResponseWriter, req *http.Request) {
 	var result common.Result
 	q := req.URL.Query()
@@ -321,6 +330,7 @@ func (s *Service) Start() error {
 	http.HandleFunc("/me/ns", GetNsHandler)
 	http.HandleFunc("/me/status", GetStatusHandler)
 	http.HandleFunc("/me/traffic", GetTrafficHandler)
+	http.HandleFunc("/member", GetMemberHandler)
 	//http.HandleFunc("/log/offset", LogOffsetHandler)
 	//fmt.Println("starting collect module http listener... on ", common.Conf.Listen)
 
