@@ -32,29 +32,36 @@ const (
 	defaultHTTPServerHostPort = "localhost:5778"
 )
 
+// Tracer global
+var Tracer *tracer
+
 // Tracer custom struct
-type Tracer struct {
-	agent *app.Agent
+type tracer struct {
+	agent   *app.Agent
+	started bool
 }
 
-// New trace service
-func New(collector []string, logDir string) (*Tracer, error) {
-	t := &Tracer{}
+// Start trace service
+func Start(collector []string, logDir string) error {
+	if Tracer != nil && Tracer.started {
+		return nil
+	}
+	Tracer = &tracer{}
 	if len(collector) < 1 {
-		return t, fmt.Errorf("config collector address first: %d", len(collector))
+		return fmt.Errorf("config collector address first: %d", len(collector))
 	}
 
 	conf := zap.NewProductionConfig()
 	var level zapcore.Level
 	err := (&level).UnmarshalText([]byte("info"))
 	if err != nil {
-		return t, err
+		return err
 	}
 	conf.Level = zap.NewAtomicLevelAt(level)
 	conf.OutputPaths = []string{filepath.Join(logDir, "INFO.log")}
 	logger, err := conf.Build()
 	if err != nil {
-		return t, err
+		return err
 	}
 
 	builder := &app.Builder{}
@@ -75,17 +82,15 @@ func New(collector []string, logDir string) (*Tracer, error) {
 	builder.HTTPServer.HostPort = defaultHTTPServerHostPort
 	builder.DiscoveryMinPeers = defaultMinPeers
 
-	t.agent, err = builder.CreateAgent(logger)
+	Tracer.agent, err = builder.CreateAgent(logger)
 	if err != nil {
-		return t, fmt.Errorf("Unable to initialize Jaeger Agent: %s", err)
+		return fmt.Errorf("Unable to initialize Jaeger Agent: %s", err)
 	}
-	return t, nil
-}
 
-// Start trace service
-func (t *Tracer) Start() error {
-	if err := t.agent.Run(); err != nil {
+	// start tracer
+	if err := Tracer.agent.Run(); err != nil {
 		return fmt.Errorf("Failed to run the trace module: %s", err)
 	}
+	Tracer.started = true
 	return nil
 }

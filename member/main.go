@@ -13,11 +13,15 @@ var Member member
 
 // Member struct
 type member struct {
-	list *memberlist.Memberlist
+	list    *memberlist.Memberlist
+	started bool
 }
 
 // Start member service
 func (m *member) Start(nodes []string, key string) error {
+	if Member.started {
+		return nil
+	}
 	if keyBytes, err := base64.StdEncoding.DecodeString(key); err != nil {
 		return fmt.Errorf("Invalid key, Decode failed: %s", err)
 	} else {
@@ -35,13 +39,14 @@ func (m *member) Start(nodes []string, key string) error {
 	if err != nil {
 		return fmt.Errorf("Failed to create memberlist: %s", err)
 	}
-
+	m.started = true
 	if len(nodes) == 0 {
 		return nil
 	}
 	// Join an existing cluster by specifying at least one known member.
 	_, err = m.list.Join(nodes)
 	if err != nil {
+		m.started = false
 		return fmt.Errorf("Failed to join member cluster: %s", err)
 	}
 	return nil

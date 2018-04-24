@@ -1,12 +1,13 @@
-## v0.3.2 [unrelease]
+## v0.4.0 [unrelease]
 
 ### Release Notes
 
+- [#108](https://github.com/lodastack/agent/pull/108): add member module
 
 ### Bugfixes
 
 - [#107](https://github.com/lodastack/agent/pull/107): trim SN space on Windows 
-
+- [#109](https://github.com/lodastack/agent/pull/109): refactor trace module code
 
 ## v0.3.1 [2018-04-18]
 
