@@ -8,6 +8,7 @@
 
 - [#107](https://github.com/lodastack/agent/pull/107): trim SN space on Windows 
 - [#109](https://github.com/lodastack/agent/pull/109): refactor trace module code
+- [#110](https://github.com/lodastack/agent/pull/110): remove incorrect net traffic value
 
 ## v0.3.1 [2018-04-18]
 

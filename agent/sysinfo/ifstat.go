@@ -46,12 +46,12 @@ func NetMetrics() (ret []*common.Metric) {
 			tags := map[string]string{"interface": iface}
 			oldStat := historyIfStat[iface]
 			netIn := common.SetPrecision(float64(stat.inBytes-oldStat.inBytes)*BITS_PER_BYTE/float64(interval), 2)
-			if netIn >= 0 {
+			if netIn >= 0 && (netIn <= float64(stat.speed*MILLION_BIT) || stat.speed == 0) {
 				ret = append(ret, toMetric("net.in", netIn, tags))
 			}
 
 			netOut := common.SetPrecision(float64(stat.outBytes-oldStat.outBytes)*BITS_PER_BYTE/float64(interval), 2)
-			if netOut >= 0 {
+			if netOut >= 0 && (netOut <= float64(stat.speed*MILLION_BIT) || stat.speed == 0) {
 				ret = append(ret, toMetric("net.out", netOut, tags))
 			}
 
