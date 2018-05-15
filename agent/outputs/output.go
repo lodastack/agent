@@ -62,7 +62,7 @@ func SendMetrics(ctype string, namespace string, _metrics []*common.Metric) erro
 	now := time.Now().Unix()
 	hostname, err := common.Hostname()
 	if err != nil {
-		log.Errorf("get hostname failed: %s", err.Error())
+		log.Errorf("get hostname failed: %s", err)
 		return err
 	}
 	for _, metric := range metrics {

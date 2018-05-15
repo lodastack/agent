@@ -2,7 +2,7 @@ package plugins
 
 import (
 	"bytes"
-	"errors"
+	"fmt"
 	"os"
 	"os/exec"
 	"path"
@@ -11,6 +11,7 @@ import (
 	"github.com/lodastack/agent/agent/common"
 )
 
+// Update updates plugin
 func Update(namespace, gitPath string, pull bool) error {
 	pluginDir := path.Join(common.Conf.PluginsDir, namespace)
 	if !common.Exists(pluginDir) {
@@ -26,19 +27,19 @@ func Update(namespace, gitPath string, pull bool) error {
 		cmd := exec.Command("git", "clone", gitPath)
 		cmd.Dir = pluginDir
 		if err := cmd.Run(); err != nil {
-			return errors.New("clone failed: " + err.Error())
+			return fmt.Errorf("clone failed: %s", err)
 		}
 		if err := checkoutRelease(dir); err != nil {
-			return errors.New("can not checkout to release: " + err.Error())
+			return fmt.Errorf("can not checkout to release: %s", err)
 		}
 		return nil
 	} else {
 		if err := checkBranch(dir); err != nil {
 			if err = updateBranches(dir); err != nil {
-				return errors.New("can not update remote branches: " + err.Error())
+				return fmt.Errorf("can not update remote branches: %s", err)
 			}
 			if err = checkoutRelease(dir); err != nil {
-				return errors.New("can not checkout to release: " + err.Error())
+				return fmt.Errorf("can not checkout to release: %s", err)
 			}
 		}
 		if !pull {
@@ -47,7 +48,7 @@ func Update(namespace, gitPath string, pull bool) error {
 		cmd := exec.Command("git", "pull", "origin", "release")
 		cmd.Dir = dir
 		if err := cmd.Run(); err != nil {
-			return errors.New("failed to pull from release: " + err.Error())
+			return fmt.Errorf("failed to pull from release: %s", err)
 		}
 		return nil
 	}
@@ -75,7 +76,7 @@ func checkBranch(dir string) error {
 	} else {
 		s := string(stdout.Bytes())
 		if !strings.Contains(s, "* release") {
-			return errors.New("not on branch release")
+			return fmt.Errorf("%s", "not on branch release")
 		} else {
 			return nil
 		}

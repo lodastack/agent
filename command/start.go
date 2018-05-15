@@ -55,10 +55,10 @@ func runStart(c *cli.Context) {
 	//start agent module
 	a, err := agent.New(config.C)
 	if err != nil {
-		log.Fatalf("New agent Error: %s", err.Error())
+		log.Fatalf("New agent Error: %s", err)
 	}
 	if err := a.Start(); err != nil {
-		log.Fatalf("agent start failed: %s", err.Error())
+		log.Fatalf("agent start failed: %s", err)
 	}
 	// Print sweet Agent logo.
 	PrintLogo()
@@ -71,7 +71,7 @@ func runStart(c *cli.Context) {
 	// TODO: add a switch to enable it, like member module.
 	err = trace.Start(config.C.Trace.Collector, config.C.Log.Dir)
 	if err != nil {
-		log.Errorf("trace module start failed: %s", err.Error())
+		log.Errorf("trace module start failed: %s", err)
 	}
 	log.Info("trace module started")
 
