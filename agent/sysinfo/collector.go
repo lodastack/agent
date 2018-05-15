@@ -15,10 +15,10 @@ func init() {
 	go func() {
 		for {
 			if err := UpdateCpuStat(); err != nil {
-				log.Errorf("update CPU status error: %s", err.Error())
+				log.Errorf("update CPU status error: %s", err)
 			}
 			if err := UpdateDiskStats(); err != nil {
-				log.Errorf("update disks status error: %s", err.Error())
+				log.Errorf("update disks status error: %s", err)
 			}
 			time.Sleep(updateIntrval)
 		}

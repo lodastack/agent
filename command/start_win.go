@@ -43,13 +43,13 @@ func WindowsStart() {
 	if len(os.Args) > 1 {
 		if os.Args[1] == "install" {
 			s.Install()
-			fmt.Println("服务安装成功")
+			fmt.Println("service installed")
 			return
 		}
 
 		if os.Args[1] == "remove" {
 			s.Uninstall()
-			fmt.Println("服务卸载成功")
+			fmt.Println("service removed")
 			return
 		}
 	}
@@ -64,17 +64,17 @@ func startAgent(cf string) {
 	//parse config file
 	err := config.ParseConfig(cf)
 	if err != nil {
-		log.Fatalf("Parse Config File Error: %s", err.Error())
+		log.Fatalf("Parse Config File Error: %s", err)
 	}
 	//init log setting
 	initLog()
 	//start agent module
 	a, err := agent.New(config.C)
 	if err != nil {
-		log.Fatalf("New agent Error: %s", err.Error())
+		log.Fatalf("New agent Error: %s", err)
 	}
 	if err := a.Start(); err != nil {
-		log.Fatalf("agent start failed: %s", err.Error())
+		log.Fatalf("agent start failed: %s", err)
 	}
 	// Print sweet Agent logo.
 	PrintLogo()

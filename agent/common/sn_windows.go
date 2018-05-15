@@ -23,7 +23,7 @@ func SN() string {
 	cmd := exec.Command(head, parts...)
 	out, err := cmd.Output()
 	if err != nil {
-		log.Errorf("get sn failed: %s", err.Error())
+		log.Errorf("get sn failed: %s", err)
 		return ""
 	}
 	list := strings.Split(string(out), "SerialNumber")
