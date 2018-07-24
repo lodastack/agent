@@ -7,5 +7,5 @@ const (
 	promiscuous   bool          = false
 	pcaptimeout   time.Duration = -1 * time.Second
 	runDuration   int           = 50
-	maxPacketSize               = 30
+	maxPacketSize               = 50
 )

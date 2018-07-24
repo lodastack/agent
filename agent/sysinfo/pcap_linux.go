@@ -117,13 +117,25 @@ func PcapMetrics() (L []*common.Metric) {
 }
 
 func printPacketInfo(packet gopacket.Packet, ifname string, ifip string) *common.Metric {
+	// DNS layer recoder
+	dnsLayer := packet.Layer(layers.LayerTypeDNS)
+	if dnsLayer != nil {
+		dns, ok := dnsLayer.(*layers.DNS)
+		if ok {
+			if (dns.ANCount == 0 && dns.ResponseCode > 0) || (dns.ANCount > 0) {
+				for _, q := range dns.Questions {
+					return toMetric("pcap.dns", 1, map[string]string{"Question": string(q.Name), "Type": q.Type.String(), "interface": ifname, "ip": ifip})
+				}
+			}
+		}
+	}
+
 	ipLayer := packet.Layer(layers.LayerTypeIPv4)
-	var dstIP, srcIP string
 	if ipLayer != nil {
 		ip, ok := ipLayer.(*layers.IPv4)
 		if ok {
-			dstIP = ip.DstIP.String()
-			srcIP = ip.SrcIP.String()
+			dstIP := ip.DstIP.String()
+			srcIP := ip.SrcIP.String()
 			return toMetric("pcap.ipv4", 1, map[string]string{"DstIP": dstIP, "SrcIP": srcIP, "interface": ifname, "ip": ifip})
 		}
 	}
