@@ -1,4 +1,11 @@
-## v0.4.0 [unrelease]
+## v0.4.1 [unrelease]
+
+### Release Notes
+
+### Bugfixes
+
+
+## v0.4.0 [2018-06-22]
 
 ### Release Notes
 

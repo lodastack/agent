@@ -1,6 +1,6 @@
 #/bin/bash 
 
-version="0.4.0"
+version="0.4.1"
 commit=`git rev-parse HEAD`
 branch=`git rev-parse --abbrev-ref HEAD`
 t=`date "+%Y-%m-%d_%H:%M:%S"`
