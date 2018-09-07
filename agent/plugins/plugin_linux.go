@@ -150,12 +150,20 @@ func (self Collector) Execute(timeout int) error {
 	}
 
 	for index, m := range metrics {
+		var customNS string
+		if ns, ok := m.Tags["namespace"]; ok {
+			ns = strings.Replace(ns, "-", ".", -1)
+			if strings.HasSuffix(ns, ".loda") {
+				customNS = ns
+			}
+		}
 		if err := nameCheck(m.Name); err != nil {
 			metrics = append(metrics[:index], metrics[index+1:]...)
 			log.Errorf("metrics check failed: %s", err)
 			continue
 		}
 		m.Name = self.Name + "." + m.Name
+		outputs.SendMetrics(common.TYPE_PLUGIN, customNS, []*common.Metric{m})
 	}
 	outputs.SendMetrics(common.TYPE_PLUGIN, self.Namespace, metrics)
 	return nil
