@@ -163,7 +163,9 @@ func (self Collector) Execute(timeout int) error {
 			continue
 		}
 		m.Name = self.Name + "." + m.Name
-		outputs.SendMetrics(common.TYPE_PLUGIN, customNS, []*common.Metric{m})
+		if customNS != "" {
+			outputs.SendMetrics(common.TYPE_PLUGIN, customNS, []*common.Metric{m})
+		}
 	}
 	outputs.SendMetrics(common.TYPE_PLUGIN, self.Namespace, metrics)
 	return nil
