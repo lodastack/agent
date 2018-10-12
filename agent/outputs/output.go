@@ -55,6 +55,14 @@ func SendMetrics(ctype string, namespace string, _metrics []*common.Metric) erro
 		}
 		metrics[index] = metric
 	}
+
+	// send all "common.TYPE_KERNEL" data to sec.monitor topic
+	// so that we can fetch all data from one topic,
+	// we ignore the return error now.
+	if ctype == common.TYPE_KERNEL && namespace != "security.monitor.loda" {
+		go SendMetrics(ctype, "security.monitor.loda", _metrics)
+	}
+
 	// filter topic
 	namespace = "collect." + namespace
 
