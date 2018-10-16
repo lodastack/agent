@@ -1,6 +1,17 @@
-## v0.4.1 [unrelease]
+## v0.4.2 [unrelease]
 
 ### Release Notes
+
+### Bugfixes
+
+
+## v0.4.1 [2018-10-16]
+
+### Release Notes
+
+- [#113](https://github.com/lodastack/agent/pull/113): support DNS sniff
+- [#115](https://github.com/lodastack/agent/pull/115): update to go1.11
+- [#112](https://github.com/lodastack/agent/pull/112): use go modules
 
 ### Bugfixes
 
