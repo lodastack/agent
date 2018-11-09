@@ -4,6 +4,7 @@
 
 ### Bugfixes
 
+- [#117](https://github.com/lodastack/agent/pull/117): Support Linux kernels with additional fields
 
 ## v0.4.1 [2018-10-16]
 

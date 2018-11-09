@@ -3,7 +3,6 @@ module github.com/lodastack/agent
 require (
 	github.com/BurntSushi/toml v0.3.0
 	github.com/DataDog/datadog-go v0.0.0-20180822151419-281ae9f2d895 // indirect
-	github.com/StackExchange/wmi v0.0.0-20180725035823-b12b22c5341f // indirect
 	github.com/VividCortex/gohistogram v1.0.0 // indirect
 	github.com/apache/thrift v0.0.0-20151001171628-53dd39833a08 // indirect
 	github.com/armon/go-metrics v0.0.0-20180221182744-783273d70314 // indirect
@@ -15,7 +14,6 @@ require (
 	github.com/codegangsta/cli v1.20.0 // indirect
 	github.com/fsnotify/fsnotify v1.4.7 // indirect
 	github.com/go-kit/kit v0.7.0 // indirect
-	github.com/go-ole/go-ole v1.2.1 // indirect
 	github.com/golang/protobuf v1.2.0 // indirect
 	github.com/google/gopacket v1.1.14
 	github.com/hashicorp/consul v1.2.2 // indirect
@@ -38,25 +36,22 @@ require (
 	github.com/kardianos/service v0.0.0-20180320115954-615a14ed7509
 	github.com/lodastack/log v0.0.0-20161025094532-b25a4d2e8c22
 	github.com/lodastack/models v0.0.0-20171124042023-a657bc0c06c6
-	github.com/lodastack/nux v0.0.0-20171102023216-6268ebcfc392
+	github.com/lodastack/nux v0.0.0-20181109020124-c7c69ce074de
 	github.com/magiconair/properties v1.8.0 // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.1 // indirect
 	github.com/miekg/dns v1.0.7 // indirect
 	github.com/mitchellh/mapstructure v1.0.0 // indirect
-	github.com/mozillazg/go-pinyin v0.14.0 // indirect
 	github.com/oiooj/cli v1.2.0
 	github.com/opentracing/opentracing-go v1.0.2 // indirect
 	github.com/pascaldekloe/goe v0.0.0-20180627143212-57f6aae5913c // indirect
 	github.com/pelletier/go-toml v1.2.0 // indirect
 	github.com/pkg/errors v0.8.0 // indirect
-	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/prashantv/protectmem v0.0.0-20171002184600-e20412882b3a // indirect
 	github.com/prometheus/client_golang v0.8.0 // indirect
 	github.com/prometheus/client_model v0.0.0-20180712105110-5c3871d89910 // indirect
 	github.com/prometheus/common v0.0.0-20180801064454-c7de2306084e // indirect
 	github.com/prometheus/procfs v0.0.0-20180725123919-05ee40e3a273 // indirect
 	github.com/sean-/seed v0.0.0-20170313163322-e2103e2c3529 // indirect
-	github.com/shirou/gopsutil v2.17.12+incompatible // indirect
 	github.com/spf13/afero v1.1.1 // indirect
 	github.com/spf13/cast v1.2.0 // indirect
 	github.com/spf13/cobra v0.0.3 // indirect
@@ -65,8 +60,6 @@ require (
 	github.com/spf13/viper v1.1.0 // indirect
 	github.com/streadway/quantile v0.0.0-20150917103942-b0c588724d25 // indirect
 	github.com/stretchr/objx v0.1.1 // indirect
-	github.com/stretchr/testify v1.2.2 // indirect
-	github.com/toolkits/file v0.0.0-20160325033739-a5b3c5147e07 // indirect
 	github.com/tv42/httpunix v0.0.0-20150427012821-b75d8614f926 // indirect
 	github.com/uber-go/atomic v1.3.2 // indirect
 	github.com/uber/jaeger-client-go v2.14.0+incompatible // indirect
@@ -78,7 +71,6 @@ require (
 	golang.org/x/crypto v0.0.0-20180820150726-614d502a4dac // indirect
 	golang.org/x/net v0.0.0-20180826012351-8a410e7b638d // indirect
 	golang.org/x/sync v0.0.0-20180314180146-1d60e4601c6f // indirect
-	golang.org/x/sys v0.0.0-20180824143301-4910a1d54f87 // indirect
 	golang.org/x/text v0.3.0 // indirect
 	google.golang.org/appengine v1.1.0 // indirect
 	gopkg.in/vmihailenco/msgpack.v2 v2.9.1 // indirect
