@@ -1,6 +1,15 @@
-## v0.4.2 [unrelease]
+## v0.4.3 [unrelease]
 
 ### Release Notes
+
+### Bugfixes
+
+
+## v0.4.2 [2018-11-13]
+
+### Release Notes
+
+- [#118](https://github.com/lodastack/agent/pull/118): user login history collect
 
 ### Bugfixes
 
