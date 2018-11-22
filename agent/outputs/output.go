@@ -2,6 +2,7 @@ package outputs
 
 import (
 	"errors"
+	"strings"
 	"time"
 
 	"github.com/lodastack/agent/agent/common"
@@ -51,6 +52,7 @@ func SendMetrics(ctype string, namespace string, _metrics []*common.Metric) erro
 			Offset:    _metric.Offset,
 		}
 		for k, v := range _metric.Tags {
+			v = strings.Replace(strings.TrimSpace(v), " ", "-", -1)
 			metric.Tags[k] = v
 		}
 		metrics[index] = metric
