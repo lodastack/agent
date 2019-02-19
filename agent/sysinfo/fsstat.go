@@ -4,6 +4,7 @@ import (
 	"errors"
 	"io/ioutil"
 	"os"
+	"path"
 	"path/filepath"
 	"time"
 
@@ -107,6 +108,15 @@ func CheckFS(file string, content string, t string) error {
 		err = os.Remove(file)
 		if err != nil {
 			log.Error("Remove file filed: ", err)
+			return err
+		}
+	}
+	if t == "ro" {
+		mp := path.Dir(file)
+		if _, err := os.Stat(mp); err != nil {
+			return err
+		}
+		if _, err := ioutil.ReadDir(mp); err != nil {
 			return err
 		}
 	}

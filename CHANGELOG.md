@@ -4,6 +4,7 @@
 
 ### Bugfixes
 
+- [#121](https://github.com/lodastack/agent/pull/121): detect health status of read only file system
 
 ## v0.4.2 [2018-11-13]
 
