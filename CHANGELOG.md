@@ -1,4 +1,4 @@
-## v0.4.3 [unrelease]
+## v0.4.3 [2019-08-07]
 
 ### Release Notes
 
@@ -6,6 +6,8 @@
 
 - [#121](https://github.com/lodastack/agent/pull/121): detect health status of read only file system
 - [#122](https://github.com/lodastack/agent/pull/122): change socket file permission
+- [#123](https://github.com/lodastack/agent/pull/123): update gopacp to v1.1.17
+- [#124](https://github.com/lodastack/agent/pull/124): fix empty string cached in hostname file
 
 ## v0.4.2 [2018-11-13]
 
