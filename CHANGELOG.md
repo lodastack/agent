@@ -5,6 +5,7 @@
 ### Bugfixes
 
 - [#121](https://github.com/lodastack/agent/pull/121): detect health status of read only file system
+- [#122](https://github.com/lodastack/agent/pull/122): change socket file permission
 
 ## v0.4.2 [2018-11-13]
 

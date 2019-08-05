@@ -1,5 +1,7 @@
 module github.com/lodastack/agent
 
+go 1.12
+
 require (
 	github.com/BurntSushi/toml v0.3.0
 	github.com/DataDog/datadog-go v0.0.0-20180822151419-281ae9f2d895 // indirect
