@@ -80,13 +80,17 @@ func (a *Agent) report() {
 		} else {
 			if resp.StatusCode == http.StatusOK {
 				log.Info("report agent info successfully")
-				file := filepath.Join(a.Config.PluginsDir, ".hostname")
-				if err := ioutil.WriteFile(file, []byte(data.NewHostname), 0644); err != nil {
-					log.Error("write hostname cache file failed: ", err)
+				if HostnameChanged && data.NewHostname != "" {
+					file := filepath.Join(a.Config.PluginsDir, ".hostname")
+					if err := ioutil.WriteFile(file, []byte(data.NewHostname), 0644); err != nil {
+						log.Error("write hostname cache file failed: ", err)
+					}
 				}
-				file = filepath.Join(a.Config.PluginsDir, ".ip")
-				if err := ioutil.WriteFile(file, []byte(strings.Join(data.NewIPList, ",")), 0644); err != nil {
-					log.Error("write ip cache file failed: ", err)
+				if IPChanged && len(data.NewIPList) > 0 {
+					file := filepath.Join(a.Config.PluginsDir, ".ip")
+					if err := ioutil.WriteFile(file, []byte(strings.Join(data.NewIPList, ",")), 0644); err != nil {
+						log.Error("write ip cache file failed: ", err)
+					}
 				}
 			} else {
 				log.Errorf("report agent info failed: StatusCode %d", resp.StatusCode)
