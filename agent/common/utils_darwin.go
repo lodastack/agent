@@ -147,6 +147,12 @@ func HostnameChanged() (bool, string) {
 		log.Error("Read hostname cache file failed: ", err)
 		return false, h
 	}
+
+	if strings.TrimSpace(string(read)) == "" {
+		ioutil.WriteFile(file, []byte(h), 0644)
+		return false, h
+	}
+
 	if string(read) != h {
 		log.Infof("Hostname chaged: %s -> %s", string(read), h)
 		return true, string(read)
