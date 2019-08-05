@@ -377,6 +377,8 @@ func (s *Service) Start() error {
 			return err
 		}
 
+		os.Chmod(s.bindSocket, 0777)
+
 		log.Info(fmt.Sprint("Listening on unix socket:", listener.Addr().String()))
 		s.unixSocketListener = listener
 
