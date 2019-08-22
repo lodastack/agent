@@ -27,12 +27,12 @@ const (
 	maxStratum = 16
 	nanoPerSec = 1000000000
 
-	ntpserver  = "133.100.11.8" // 日本福冈大学 NTP Server
+	ntpserver  = "120.25.115.20" // Aliyun NTP Server
 	ntpversion = 4
 )
 
 var (
-	timeout  = 5 * time.Second
+	timeout  = 6 * time.Second
 	ntpEpoch = time.Date(1900, 1, 1, 0, 0, 0, 0, time.UTC)
 )
 
