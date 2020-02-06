@@ -12,6 +12,7 @@
 	buffersize = 1000
 
 [trace]
+	enable = false
 	collector = [ "0.0.0.0:1233" ]
 
 [member]

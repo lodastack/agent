@@ -1,4 +1,12 @@
-## v0.4.3 [2019-08-07]
+### v0.5.0 []
+
+### Release Notes
+
+- [#127](https://github.com/lodastack/agent/pull/127): add a switch for trace module
+
+### Bugfixes
+
+# v0.4.3 [2019-08-07]
 
 ### Release Notes
 
