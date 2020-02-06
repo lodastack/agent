@@ -68,13 +68,13 @@ func runStart(c *cli.Context) {
 		go Notify()
 	}
 	// trace module
-	// TODO: add a switch to enable it, like member module.
-	err = trace.Start(config.C.Trace.Collector, config.C.Log.Dir)
-	if err != nil {
-		log.Errorf("trace module start failed: %s", err)
+	if config.C.Trace.Enable {
+		err = trace.Start(config.C.Trace.Collector, config.C.Log.Dir)
+		if err != nil {
+			log.Errorf("trace module start failed: %s", err)
+		}
+		log.Info("trace module started")
 	}
-	log.Info("trace module started")
-
 	// member module
 	if config.C.Member.Enable {
 		if err := member.Member.Start(config.C.Member.Nodes, config.C.Member.Key); err != nil {
