@@ -5,6 +5,7 @@ go 1.12
 require (
 	github.com/BurntSushi/toml v0.3.0
 	github.com/DataDog/datadog-go v0.0.0-20180822151419-281ae9f2d895 // indirect
+	github.com/StackExchange/wmi v0.0.0-20210224194228-fe8f1750fd46 // indirect
 	github.com/VividCortex/gohistogram v1.0.0 // indirect
 	github.com/apache/thrift v0.0.0-20151001171628-53dd39833a08 // indirect
 	github.com/armon/go-metrics v0.0.0-20180221182744-783273d70314 // indirect
@@ -16,6 +17,7 @@ require (
 	github.com/codegangsta/cli v1.20.0 // indirect
 	github.com/fsnotify/fsnotify v1.4.7 // indirect
 	github.com/go-kit/kit v0.7.0 // indirect
+	github.com/go-ole/go-ole v1.2.5 // indirect
 	github.com/golang/protobuf v1.2.0 // indirect
 	github.com/google/gopacket v1.1.17
 	github.com/hashicorp/consul v1.2.2 // indirect
@@ -38,11 +40,12 @@ require (
 	github.com/kardianos/service v0.0.0-20180320115954-615a14ed7509
 	github.com/lodastack/log v0.0.0-20161025094532-b25a4d2e8c22
 	github.com/lodastack/models v0.0.0-20171124042023-a657bc0c06c6
-	github.com/lodastack/nux v0.0.0-20181109020124-c7c69ce074de
+	github.com/lodastack/nux v1.0.0
 	github.com/magiconair/properties v1.8.0 // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.1 // indirect
 	github.com/miekg/dns v1.0.7 // indirect
 	github.com/mitchellh/mapstructure v1.0.0 // indirect
+	github.com/mozillazg/go-pinyin v0.18.0 // indirect
 	github.com/oiooj/cli v1.2.0
 	github.com/opentracing/opentracing-go v1.0.2 // indirect
 	github.com/pascaldekloe/goe v0.0.0-20180627143212-57f6aae5913c // indirect
@@ -54,6 +57,7 @@ require (
 	github.com/prometheus/common v0.0.0-20180801064454-c7de2306084e // indirect
 	github.com/prometheus/procfs v0.0.0-20180725123919-05ee40e3a273 // indirect
 	github.com/sean-/seed v0.0.0-20170313163322-e2103e2c3529 // indirect
+	github.com/shirou/gopsutil v3.21.4+incompatible // indirect
 	github.com/spf13/afero v1.1.1 // indirect
 	github.com/spf13/cast v1.2.0 // indirect
 	github.com/spf13/cobra v0.0.3 // indirect
@@ -62,6 +66,7 @@ require (
 	github.com/spf13/viper v1.1.0 // indirect
 	github.com/streadway/quantile v0.0.0-20150917103942-b0c588724d25 // indirect
 	github.com/stretchr/objx v0.1.1 // indirect
+	github.com/tklauser/go-sysconf v0.3.6 // indirect
 	github.com/tv42/httpunix v0.0.0-20150427012821-b75d8614f926 // indirect
 	github.com/uber-go/atomic v1.3.2 // indirect
 	github.com/uber/jaeger-client-go v2.14.0+incompatible // indirect
@@ -71,6 +76,7 @@ require (
 	go.uber.org/multierr v1.1.0 // indirect
 	go.uber.org/zap v1.8.0
 	golang.org/x/sync v0.0.0-20180314180146-1d60e4601c6f // indirect
+	golang.org/x/sys v0.0.0-20210514084401-e8d321eab015 // indirect
 	google.golang.org/appengine v1.1.0 // indirect
 	gopkg.in/vmihailenco/msgpack.v2 v2.9.1 // indirect
 	gopkg.in/yaml.v2 v2.2.1 // indirect
