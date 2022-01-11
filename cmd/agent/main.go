@@ -56,6 +56,7 @@ func main() {
 	app.Email = config.Email
 
 	app.Commands = []cli.Command{
+		command.CmdCloudStart,
 		command.CmdStart,
 		command.CmdStop,
 		command.CmdVersion,

@@ -77,6 +77,6 @@ func startAgent(cf string) {
 		log.Fatalf("agent start failed: %s", err)
 	}
 	// Print sweet Agent logo.
-	PrintLogo()
+	printLogo()
 	select {}
 }

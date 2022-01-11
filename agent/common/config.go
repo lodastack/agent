@@ -1,12 +1,12 @@
 package common
 
 type AgentConfig struct {
-	Listen       string   `toml:"listen"`
-	IfacePrefix  []string `toml:"ifaceprefix"`
-	PluginsDir   string   `toml:"pluginsdir"`
-	PluginsUser  string   `toml:"pluginsuser"`
-	RegistryAddr string   `toml:registryaddr"`
-	Git          string   `toml:"git"`
+	Listen       string   `toml:"listen" json:"listen"`
+	IfacePrefix  []string `toml:"ifaceprefix" json:"ifaceprefix"`
+	PluginsDir   string   `toml:"pluginsdir" json:"pluginsdir"`
+	PluginsUser  string   `toml:"pluginsuser" json:"pluginsuser"`
+	RegistryAddr string   `toml:registryaddr" json:"registryaddr"`
+	Git          string   `toml:"git" json:"git"`
 }
 
 var Conf *AgentConfig
