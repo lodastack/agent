@@ -95,7 +95,7 @@ func initLog(conf config.LogConfig) {
 	var err error
 	logBackend, err = log.NewFileBackend(conf.Dir)
 	if err != nil {
-		log.Fatalf("failed to new log backend")
+		log.Fatalf("failed to new log backend:%v\n", err)
 	}
 	log.SetLogging(conf.Level, logBackend)
 	logBackend.Rotate(conf.Logrotatenum, conf.Logrotatesize)
