@@ -141,8 +141,6 @@ func getFuncsByType(t string) (ret []func() []*common.Metric) {
 		ret = append(ret, sysinfo.WtmpMetrics, sysinfo.BtmpMetrics)
 	case common.TYPE_TIME:
 		ret = append(ret, sysinfo.TimeMetrics)
-	case common.TYPE_DEV:
-		ret = append(ret, sysinfo.PcapMetrics)
 	case common.TYPE_NET:
 		ret = append(ret, sysinfo.NetMetrics, sysinfo.SocketStatSummaryMetrics)
 	case common.TYPE_COREDUMP:
