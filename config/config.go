@@ -44,18 +44,18 @@ var (
 )
 
 type Config struct {
-	Agent  common.AgentConfig `toml:"agent"`
-	Output outputs.Config     `toml:"output"`
-	Trace  trace.Config       `toml:"trace"`
-	Member member.Config      `toml:"member"`
-	Log    LogConfig          `toml:"log"`
+	Agent  common.AgentConfig `toml:"agent" json:"agent"`
+	Output outputs.Config     `toml:"output" json:"output"`
+	Trace  trace.Config       `toml:"trace" json:"trace"`
+	Member member.Config      `toml:"member" json:"member"`
+	Log    LogConfig          `toml:"log" json:"log"`
 }
 
 type LogConfig struct {
-	Dir           string `toml:"logdir"`
-	Level         string `toml:"loglevel"`
-	Logrotatenum  int    `toml:"logrotatenum"`
-	Logrotatesize uint64 `toml:"logrotatesize"`
+	Dir           string `toml:"logdir" json:"logdir"`
+	Level         string `toml:"loglevel" json:"loglevel"`
+	Logrotatenum  int    `toml:"logrotatenum" json:"logrotatenum"`
+	Logrotatesize uint64 `toml:"logrotatesize" json:"logrotatesize"`
 }
 
 func ParseConfig(path string) error {

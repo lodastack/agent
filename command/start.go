@@ -49,11 +49,15 @@ func runStart(c *cli.Context) {
 	if err != nil {
 		log.Fatalf("Parse Config File Error: %s", err.Error())
 	}
+	start(c, config.C)
+}
+
+func start(c *cli.Context, conf *config.Config) {
 	//init log setting
 	initLog()
 
 	//start agent module
-	a, err := agent.New(config.C)
+	a, err := agent.New(conf)
 	if err != nil {
 		log.Fatalf("New agent Error: %s", err)
 	}
@@ -61,11 +65,11 @@ func runStart(c *cli.Context) {
 		log.Fatalf("agent start failed: %s", err)
 	}
 	// Print sweet Agent logo.
-	PrintLogo()
+	printLogo()
 	if runtime.GOOS != "windows" {
 		//save pid to file
 		ioutil.WriteFile(config.PID, []byte(strconv.Itoa(os.Getpid())), 0644)
-		go Notify()
+		go notify()
 	}
 	// trace module
 	if config.C.Trace.Enable {
@@ -97,7 +101,7 @@ func initLog() {
 	logBackend.Rotate(config.C.Log.Logrotatenum, config.C.Log.Logrotatesize)
 }
 
-func Notify() {
+func notify() {
 	message := make(chan os.Signal, 1)
 
 	signal.Notify(message, syscall.SIGINT, syscall.SIGKILL, os.Interrupt)
@@ -108,7 +112,7 @@ func Notify() {
 	os.Exit(0)
 }
 
-func PrintLogo() {
+func printLogo() {
 	log.Printf(logo)
 }
 
