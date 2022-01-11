@@ -54,7 +54,7 @@ func runStart(c *cli.Context) {
 
 func start(c *cli.Context, conf *config.Config) {
 	//init log setting
-	initLog()
+	initLog(conf.Log)
 
 	//start agent module
 	a, err := agent.New(conf)
@@ -91,14 +91,14 @@ func start(c *cli.Context, conf *config.Config) {
 	select {}
 }
 
-func initLog() {
+func initLog(conf config.LogConfig) {
 	var err error
-	logBackend, err = log.NewFileBackend(config.C.Log.Dir)
+	logBackend, err = log.NewFileBackend(conf.Dir)
 	if err != nil {
 		log.Fatalf("failed to new log backend")
 	}
-	log.SetLogging(config.C.Log.Level, logBackend)
-	logBackend.Rotate(config.C.Log.Logrotatenum, config.C.Log.Logrotatesize)
+	log.SetLogging(conf.Level, logBackend)
+	logBackend.Rotate(conf.Logrotatenum, conf.Logrotatesize)
 }
 
 func notify() {

@@ -67,7 +67,7 @@ func startAgent(cf string) {
 		log.Fatalf("Parse Config File Error: %s", err)
 	}
 	//init log setting
-	initLog()
+	initLog(config.C.Log)
 	//start agent module
 	a, err := agent.New(config.C)
 	if err != nil {
