@@ -62,14 +62,14 @@ func WindowsStart() {
 
 func startAgent(cf string) {
 	//parse config file
-	err := config.ParseConfig(cf)
+	conf, err := config.ParseConfig(cf)
 	if err != nil {
 		log.Fatalf("Parse Config File Error: %s", err)
 	}
 	//init log setting
-	initLog(config.C.Log)
+	initLog(conf.Log)
 	//start agent module
-	a, err := agent.New(config.C)
+	a, err := agent.New(conf)
 	if err != nil {
 		log.Fatalf("New agent Error: %s", err)
 	}

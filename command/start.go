@@ -45,11 +45,11 @@ var CmdStart = cli.Command{
 
 func runStart(c *cli.Context) {
 	//parse config file
-	err := config.ParseConfig(c.String("f"))
+	conf, err := config.ParseConfig(c.String("f"))
 	if err != nil {
 		log.Fatalf("Parse Config File Error: %s", err.Error())
 	}
-	start(c, config.C)
+	start(c, conf)
 }
 
 func start(c *cli.Context, conf *config.Config) {
@@ -72,16 +72,16 @@ func start(c *cli.Context, conf *config.Config) {
 		go notify()
 	}
 	// trace module
-	if config.C.Trace.Enable {
-		err = trace.Start(config.C.Trace.Collector, config.C.Log.Dir)
+	if conf.Trace.Enable {
+		err = trace.Start(conf.Trace.Collector, conf.Log.Dir)
 		if err != nil {
 			log.Errorf("trace module start failed: %s", err)
 		}
 		log.Info("trace module started")
 	}
 	// member module
-	if config.C.Member.Enable {
-		if err := member.Member.Start(config.C.Member.Nodes, config.C.Member.Key); err != nil {
+	if conf.Member.Enable {
+		if err := member.Member.Start(conf.Member.Nodes, conf.Member.Key); err != nil {
 			log.Errorf("member module start failed: %s", err)
 		}
 		log.Info("member module started")

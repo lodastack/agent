@@ -1,8 +1,6 @@
 package config
 
 import (
-	"sync"
-
 	"github.com/lodastack/agent/agent/common"
 	"github.com/lodastack/agent/agent/outputs"
 	"github.com/lodastack/agent/member"
@@ -38,11 +36,6 @@ const (
 	PID = "/var/run/loda-agent.pid"
 )
 
-var (
-	mux = new(sync.RWMutex)
-	C   = new(Config)
-)
-
 type Config struct {
 	Agent  common.AgentConfig `toml:"agent" json:"agent"`
 	Output outputs.Config     `toml:"output" json:"output"`
@@ -58,18 +51,10 @@ type LogConfig struct {
 	Logrotatesize uint64 `toml:"logrotatesize" json:"logrotatesize"`
 }
 
-func ParseConfig(path string) error {
-	mux.Lock()
-	defer mux.Unlock()
-
-	if _, err := toml.DecodeFile(path, &C); err != nil {
-		return err
+func ParseConfig(path string) (*Config, error) {
+	c := new(Config)
+	if _, err := toml.DecodeFile(path, c); err != nil {
+		return c, err
 	}
-	return nil
-}
-
-func GetConfig() *Config {
-	mux.RLock()
-	defer mux.RUnlock()
-	return C
+	return c, nil
 }
